@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Семинар материалдары</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE calm, caring, professional – a seminar handout pack for teachers
+   IDEA the seminar's printed folder: a deep cover, a day timeline inside, then the take-away sheets
+   PICTURE a large shield holding a heart, wrapped in soft overlapping circles, a row of people at its foot
+   COLOUR deep teal cover field, white pages, navy ink, coral for every action
+   TYPE Noto Serif Display for titles, Noto Sans for text (full Kazakh Cyrillic)
+   LAYOUT laptop: cover band – title, facts, buttons left, picture right; programme timeline; materials grid; footer. Phone: title, picture, facts, rest stacked */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0b1a20);--ink:light-dark(#13233d,#e8f0f3);--mute:light-dark(#596a7e,#9db1bb);
+--cov:light-dark(#145f6b,#0f3f48);--cov2:light-dark(#1e8090,#165a65);--soft:light-dark(#eef6f7,#10282f);
+--line:light-dark(#dbe5ea,#21404a);--card:light-dark(#ffffff,#0f242b);--coral:#e4704f;--coral2:#f39b7f}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans",system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto}
+.band{padding:clamp(36px,5vw,80px) max(5vw,16px)}
+.serif{font-family:"Noto Serif Display",Georgia,serif}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--cov) 92%,transparent);backdrop-filter:blur(10px);color:#fff}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px max(5vw,16px);max-width:none}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;text-decoration:none}
+.brand i{width:30px;height:30px;border-radius:9px;background:#fff;display:grid;place-items:center}
+.links{display:flex;gap:4px;flex-wrap:wrap}
+.links a{text-decoration:none;font-size:15px;padding:8px 12px;border-radius:8px;opacity:.9}
+.links a:hover{background:rgba(255,255,255,.14);opacity:1}
+
+/* cover */
+.cover{background:radial-gradient(120% 90% at 85% 20%,var(--cov2) 0%,var(--cov) 60%);color:#fff;position:relative;overflow:hidden}
+.cover .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4vw,64px);align-items:center}
+.org{font-size:15px;opacity:.85;margin:0 0 18px}
+h1{font-weight:700;font-size:clamp(32px,4.4vw,54px);line-height:1.06;letter-spacing:-.015em;margin:0 0 18px;text-wrap:balance}
+.lead{font-size:18px;margin:0 0 26px;max-width:54ch;opacity:.93}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 28px;padding:0;list-style:none}
+.facts li{border-top:2px solid rgba(255,255,255,.35);padding-top:10px}
+.facts b{display:block;font-size:13px;font-weight:500;opacity:.75}
+.facts span{font-weight:600;font-size:16px}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:12px;font:600 15px "Noto Sans",sans-serif;text-decoration:none;cursor:pointer;border:0;white-space:nowrap;transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn:focus-visible{outline:3px solid var(--coral2);outline-offset:2px}
+.b-main{background:var(--coral);color:#fff;box-shadow:0 6px 18px -8px rgba(228,112,79,.8)}
+.b-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.pic{width:100%;aspect-ratio:1/0.82}
+.pic svg{width:100%;height:100%;display:block}
+.float{animation:fl 7s ease-in-out infinite}
+.float.d2{animation-delay:-2.3s}.float.d3{animation-delay:-4.6s}
+@keyframes fl{50%{transform:translateY(-10px)}}
+
+/* programme */
+.sec-h{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin-bottom:26px}
+h2{font-weight:700;font-size:clamp(26px,3vw,38px);line-height:1.1;margin:0}
+.sub{color:var(--mute);margin:6px 0 0}
+.prog{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px}
+.prog li{display:grid;grid-template-columns:112px minmax(0,1fr);gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.prog time{font-weight:700;font-variant-numeric:tabular-nums;color:var(--cov2);white-space:nowrap;font-size:17px}
+.prog h3{font-size:17px;margin:0;line-height:1.35}
+.prog small{display:inline-block;margin-top:4px;font-size:13px;color:var(--mute)}
+.prog .brk time,.prog .brk h3{color:var(--coral)}
+
+/* materials */
+.mat{background:var(--soft)}
+.search{width:min(340px,100%)}
+.search input{width:100%;font:16px "Noto Sans",sans-serif;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)}
+.search input:focus{outline:2px solid var(--coral);outline-offset:1px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:14px;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(20,60,80,.45)}
+.top{display:flex;gap:14px;align-items:flex-start}
+.doc{flex:none;width:50px;height:60px;position:relative}
+.doc svg{width:100%;height:100%}
+.card h3{font-size:18px;margin:0 0 4px;line-height:1.3}
+.card p{margin:0;color:var(--mute);font-size:15px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--mute)}
+.meta span{background:var(--soft);border-radius:6px;padding:2px 8px}
+.acts{display:flex;gap:8px;margin-top:auto}
+.acts .btn{flex:1}
+.b-open{background:var(--soft);color:var(--ink)}
+.empty{display:none;padding:28px;text-align:center;color:var(--mute);border:1px dashed var(--line);border-radius:16px;background:var(--card)}
+.note{font-size:13px;color:var(--mute);margin:18px 0 0}
+
+/* footer */
+footer{background:var(--cov);color:#fff}
+footer .wrap{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:end}
+footer h2{font-size:clamp(22px,2.4vw,30px)}
+footer p{margin:8px 0 0;opacity:.85}
+.fr{text-align:right;font-size:14px;opacity:.8}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,160%);opacity:0;visibility:hidden;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:12px;font-size:15px;transition:transform .25s;z-index:20;max-width:calc(100% - 32px)}
+.toast.on{transform:translate(-50%,0);opacity:1;visibility:visible}
+
+@media(max-width:860px){.prog{grid-template-columns:1fr}}
+@media(max-width:760px){.cover .wrap{grid-template-columns:1fr}.pic{order:-1;max-width:400px;margin:0 auto}.links a:not(.k){display:none}footer .wrap{grid-template-columns:1fr}.fr{text-align:left}}
+@media(max-width:520px){.facts{grid-template-columns:1fr}.prog li{grid-template-columns:96px minmax(0,1fr)}.cta{flex-direction:column}.cta .btn{width:100%}}
+@media(prefers-reduced-motion:reduce){.float{animation:none}.btn,.card,.toast{transition:none}html{scroll-behavior:auto}}
+
+/* ===== paid access ===== */
+:root{--teal:light-dark(#1e8090,#6cc3cf);--err:light-dark(#c8392e,#ff8a7a)}
+.btn svg.lk{width:13px;height:13px;flex:none;opacity:.85}
+.acc{display:none;align-items:center;gap:6px;font:600 14px "Noto Sans",sans-serif;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.34);color:#fff;cursor:pointer;white-space:nowrap}
+.acc:hover{background:rgba(255,255,255,.24)}
+.acc:focus-visible{outline:3px solid var(--coral2);outline-offset:2px}
+nav.has-acc .acc{display:inline-flex}
+nav.has-acc .links{margin-left:auto}
+.meta .st{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+.meta .st svg{width:11px;height:11px}
+.meta .st.lk{background:color-mix(in srgb,var(--coral) 15%,transparent);color:var(--coral)}
+.meta .st.ok{background:color-mix(in srgb,var(--teal) 16%,transparent);color:var(--teal)}
+
+/* modal */
+html:has(dialog.md[open]){overflow:hidden}
+dialog.md{border:0;padding:0;margin:auto;width:min(480px,calc(100% - 32px));max-width:none;max-height:calc(100dvh - 32px);border-radius:22px;background:var(--card);color:var(--ink);box-shadow:0 30px 80px -24px rgba(6,40,48,.6);overflow:auto;overscroll-behavior:contain}
+dialog.md::backdrop{background:rgba(6,30,36,.58);backdrop-filter:blur(4px)}
+dialog.md[open]{animation:mdIn .22s ease-out}
+@keyframes mdIn{from{opacity:0;transform:translateY(14px)}}
+.md-x{position:absolute;top:12px;right:12px;z-index:2;width:40px;height:40px;border-radius:12px;border:0;background:rgba(255,255,255,.16);color:#fff;font:400 26px/1 "Noto Sans",sans-serif;cursor:pointer;display:grid;place-items:center}
+.md-x:hover{background:rgba(255,255,255,.26)}
+.md-x:focus-visible{outline:3px solid var(--coral2);outline-offset:2px}
+.view{display:none}.view.on{display:block}
+.md [hidden]{display:none!important}
+.md-h{background:radial-gradient(120% 140% at 85% 0%,var(--cov2) 0%,var(--cov) 70%);color:#fff;padding:24px 64px 22px 24px}
+.md-h h2{font-size:clamp(22px,5.4vw,27px);line-height:1.18}
+.md-h p{margin:8px 0 0;opacity:.9;font-size:15px}
+.md-k{font-size:13px!important;margin:0 0 6px!important;text-transform:uppercase;letter-spacing:.06em;opacity:.8!important}
+.md-b{padding:22px 24px 26px;display:flex;flex-direction:column;gap:16px}
+.md-b.c{text-align:center;align-items:stretch}
+.md h3{font-size:16px;margin:0;line-height:1.35}
+.md-b p{margin:0}
+.md .mute{color:var(--mute);font-size:14px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step>b{flex:none;width:28px;height:28px;border-radius:50%;background:var(--coral);color:#fff;display:grid;place-items:center;font-size:14px;margin-top:1px}
+.step p{color:var(--mute);font-size:14px;margin:2px 0 0}
+.kaspi{display:flex;align-items:center;justify-content:space-between;gap:10px 14px;flex-wrap:wrap;border:1px solid var(--line);border-radius:16px;padding:14px 16px;background:var(--soft)}
+.kaspi small{display:block;font-size:12px;color:var(--mute)}
+.kaspi strong{font-size:21px;font-variant-numeric:tabular-nums;letter-spacing:.01em;white-space:nowrap}
+.sm{min-height:40px;padding:0 14px;font-size:14px;border-radius:10px}
+.b-line{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.qr{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px}
+.qr[hidden]{display:none}
+.qr img{width:180px;height:180px;object-fit:contain;border-radius:14px;background:#fff;padding:8px;border:1px solid var(--line)}
+.qr figcaption{font-size:13px;color:var(--mute)}
+.fld label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+.fld input{width:100%;font:16px "Noto Sans",sans-serif;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)}
+.fld input:focus{outline:2px solid var(--coral);outline-offset:1px}
+.fld input[aria-invalid=true]{border-color:var(--err)}
+.fld input[readonly]{background:var(--soft);font-size:14px;text-overflow:ellipsis}
+.err{display:block;color:var(--err);font-size:13px;margin-top:5px}
+.err:empty{display:none}
+.md .b-main,.md .b-open,.md .b-line{width:100%}
+.md .kaspi .btn{width:auto}
+.btn[disabled]{opacity:.65;cursor:progress;transform:none}
+.lnk{align-self:center;background:none;border:0;color:var(--teal);font:600 15px "Noto Sans",sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:6px 10px;border-radius:8px}
+.lnk:focus-visible{outline:2px solid var(--coral)}
+.row2{display:flex;gap:8px}.row2 .btn{flex:1}
+.box{border:1px solid var(--line);border-radius:16px;padding:14px 16px;background:var(--soft);display:flex;flex-direction:column;gap:10px;text-align:left}
+.box p{font-size:13px;color:var(--mute)}
+.ono{font-size:13px;color:var(--mute);font-variant-numeric:tabular-nums}
+
+/* waiting animation */
+.wait{position:relative;width:104px;height:104px;margin:6px auto 2px}
+.wait i{position:absolute;inset:0;border-radius:50%;border:3px solid var(--teal);opacity:0;animation:rp 2.4s ease-out infinite}
+.wait i:nth-child(2){animation-delay:.8s}.wait i:nth-child(3){animation-delay:1.6s}
+.wait span{position:absolute;inset:26px;border-radius:50%;background:var(--coral);display:grid;place-items:center;animation:bt 1.4s ease-in-out infinite;box-shadow:0 8px 20px -8px rgba(228,112,79,.9)}
+.wait svg{width:26px;height:26px}
+@keyframes rp{0%{transform:scale(.45);opacity:.9}100%{transform:scale(1.2);opacity:0}}
+@keyframes bt{50%{transform:scale(1.08)}}
+.dots::after{content:"…";display:inline-block;width:1.1em;text-align:left;animation:dt 1.4s steps(4) infinite;overflow:hidden;vertical-align:bottom}
+@keyframes dt{0%{width:0}100%{width:1.1em}}
+.ico{width:76px;height:76px;margin:4px auto 0;border-radius:50%;display:grid;place-items:center}
+.ico.ok{background:color-mix(in srgb,var(--teal) 16%,transparent);color:var(--teal)}
+.ico.no{background:color-mix(in srgb,var(--coral) 16%,transparent);color:var(--coral)}
+.ico svg{width:38px;height:38px}
+.ico.ok path{stroke-dasharray:40;stroke-dashoffset:40;animation:ck .5s .15s ease-out forwards}
+@keyframes ck{to{stroke-dashoffset:0}}
+.contact{font-weight:600}
+.contact a{color:var(--teal)}
+
+@media(max-width:520px){
+  dialog.md{width:100%;max-height:94dvh;margin:auto 0 0;border-radius:22px 22px 0 0}
+  dialog.md[open]{animation:mdUp .26s ease-out}
+  @keyframes mdUp{from{transform:translateY(40px);opacity:.4}}
+  .md-h{padding:22px 60px 20px 18px}.md-b{padding:20px 18px calc(24px + env(safe-area-inset-bottom))}
+  .kaspi strong{font-size:19px}
+  nav.has-acc .wrap{flex-wrap:wrap;row-gap:6px}
+  nav.has-acc .links{display:none}
+  nav.has-acc .acc{width:100%;justify-content:center;font-size:13px;padding:6px 12px}
+}
+@media(prefers-reduced-motion:reduce){.wait i,.wait span,.dots::after,dialog.md[open],.ico.ok path{animation:none}.wait i{opacity:.5}.ico.ok path{stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><i><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z" fill="#145f6b"/><path d="M12 17c-2.6-2-4-3.4-4-5.2A2.2 2.2 0 0 1 12 10.6a2.2 2.2 0 0 1 4 1.2c0 1.8-1.4 3.2-4 5.2z" fill="#e4704f"/></svg></i>Психологиялық қауіпсіздік</a>
+    <div class="links"><a href="#prog">Бағдарлама</a><a class="k" href="#mat">Материалдар</a><a href="#contact">Байланыс</a></div>
+    <button class="acc" id="acc" type="button" title="Жеке сілтемені көру">Сізде толық қолжетімділік бар ✓</button>
+  </div>
+</nav>
+
+<header class="band cover" id="top">
+  <div class="wrap">
+    <div>
+      <p class="org">Құлан агротехникалық жоғары колледжі · психологиялық-педагогикалық семинар</p>
+      <h1 class="serif">Кәмелетке толмағандардың психологиялық қауіпсіздігі</h1>
+      <p class="lead">Қауіп-қатерді ерте анықтау, профилактика және кешенді сүйемелдеу. Семинардың барлық материалдары осы жерде – керегін ашып немесе жүктеп алыңыз.</p>
+      <ul class="facts">
+        <li><b>Өтетін орны</b><span>Колледж, АКТ залы</span></li>
+        <li><b>Уақыты</b><span>09.30–15.00</span></li>
+        <li><b>Материалдар</b><span id="cnt">5 файл</span></li>
+      </ul>
+      <div class="cta"><a class="btn b-main" href="#mat">Материалдарды жүктеу ↓</a><a class="btn b-ghost" href="#prog">Бағдарламаны көру</a></div>
+    </div>
+    <div class="pic" aria-hidden="true">
+      <svg viewBox="0 0 600 492">
+        <defs>
+          <linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e3f1f3"/></linearGradient>
+          <linearGradient id="ht" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f39b7f"/><stop offset="1" stop-color="#d9583a"/></linearGradient>
+          <g id="pp"><circle cx="0" cy="0" r="13"/><rect x="-21" y="18" width="42" height="40" rx="18"/></g>
+        </defs>
+        <g class="float"><circle cx="150" cy="170" r="110" fill="#5fb3bf" opacity=".45"/><circle cx="470" cy="300" r="80" fill="#8fb4e8" opacity=".4"/></g>
+        <g class="float d2"><circle cx="300" cy="120" r="120" fill="#ffffff" opacity=".14"/><circle cx="460" cy="150" r="100" fill="#f39b7f" opacity=".45"/></g>
+        <g class="float d3"><circle cx="190" cy="310" r="85" fill="#a7dcc0" opacity=".42"/><circle cx="400" cy="320" r="95" fill="#f6d79f" opacity=".42"/></g>
+        <ellipse cx="300" cy="372" rx="120" ry="14" fill="#06323a" opacity=".35"/>
+        <path d="M300 70 L415 98 Q425 101 425 112 L425 205 Q425 300 300 362 Q175 300 175 205 L175 112 Q175 101 185 98 Z" fill="url(#sh)"/>
+        <path d="M300 70 L415 98 Q425 101 425 112 L425 205 Q425 300 300 362 Z" fill="#cfe6ea" opacity=".55"/>
+        <path d="M300 300 C258 268 228 244 228 208 C228 182 247 165 270 165 C285 165 295 173 300 184 C305 173 315 165 330 165 C353 165 372 182 372 208 C372 244 342 268 300 300 Z" fill="url(#ht)"/>
+        <path d="M262 186 Q270 176 284 180" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" opacity=".7"/>
+        <g fill="#ffffff" opacity=".95">
+          <use href="#pp" x="120" y="416"/><use href="#pp" x="180" y="416" opacity=".8"/><use href="#pp" x="240" y="416"/><use href="#pp" x="300" y="416" opacity=".8"/>
+          <use href="#pp" x="360" y="416"/><use href="#pp" x="420" y="416" opacity=".8"/><use href="#pp" x="480" y="416"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<section class="band" id="prog">
+  <div class="wrap">
+    <div class="sec-h"><div><h2 class="serif">Семинар бағдарламасы</h2><p class="sub">Бір күндік кесте, АКТ залы</p></div></div>
+    <ol class="prog" id="plist"></ol>
+  </div>
+</section>
+
+<section class="band mat" id="mat">
+  <div class="wrap">
+    <div class="sec-h">
+      <div><h2 class="serif">Материалдар</h2><p class="sub">Дайындаған: колледж психологы <b>Ару Шайлаева</b> · «Жүктеу» батырмасын бассаңыз, файл бірден жүктеледі</p></div>
+      <div class="search"><input id="q" type="search" placeholder="Іздеу: жадынама, тренинг…" aria-label="Материал іздеу"></div>
+    </div>
+    <div class="grid" id="list"></div>
+    <div class="empty" id="empty">Ештеңе табылмады. Басқа сөзбен іздеп көріңіз.</div>
+    <p class="note">Демо нұсқа: файлдар үлгі ретінде қойылған, кейін нақты материалдармен ауыстырылады.</p>
+  </div>
+</section>
+
+<footer class="band" id="contact">
+  <div class="wrap">
+    <div><h2 class="serif">Сұрағыңыз бар ма?</h2><p>Колледж психологы Ару Шайлаеваға жүгініңіз – кез келген сұрақ бойынша құпия кеңес береміз.</p></div>
+    <div class="fr">Құлан агротехникалық жоғары колледжі<br>Құлан, 2026</div>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<dialog class="md" id="md" aria-labelledby="mdT">
+  <button class="md-x" type="button" id="mdX" aria-label="Жабу" autofocus>×</button>
+
+  <!-- 1. Оплата -->
+  <section class="view" data-v="pay">
+    <div class="md-h"><p class="md-k">Бір рет төлейсіз</p><h2 class="serif" id="mdT">Барлық материалдарға толық қолжетімділік — <span class="js-price">666 ₸</span></h2><p>Бір төлем семинардың <span class="js-cnt">барлық</span> материалын ашады.</p></div>
+    <form class="md-b" id="payF" novalidate>
+      <div class="step"><b>1</b><div><h3>Kaspi арқылы <span class="js-price">666 ₸</span> аударыңыз</h3><p>Kaspi қосымшасы → Аударымдар → Kaspi клиентіне → телефон нөмірі</p></div></div>
+      <div class="kaspi"><div><small>Аударым нөмірі</small><strong id="kp">—</strong></div><button type="button" class="btn b-line sm js-copy" id="kpCopy">Нөмірді көшіру</button></div>
+      <figure class="qr" id="qr" hidden><img id="qrImg" alt="Kaspi QR" width="180" height="180"><figcaption>немесе Kaspi QR-ды сканерлеңіз</figcaption></figure>
+      <div class="step"><b>2</b><div><h3>Деректеріңізді жазыңыз</h3><p>Аударымды тексеру үшін керек</p></div></div>
+      <div class="fld"><label for="pName">Аты-жөніңіз</label><input id="pName" name="name" autocomplete="name" maxlength="80" placeholder="Мысалы: Айгүл Серікова"><small class="err" id="pNameE"></small></div>
+      <div class="fld"><label for="pPhone">Kaspi-дағы телефон нөміріңіз</label><input id="pPhone" class="js-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (7XX) XXX-XX-XX"><small class="err" id="pPhoneE"></small></div>
+      <small class="err" id="payE" role="alert"></small>
+      <button class="btn b-main" type="submit" id="payB">Төледім</button>
+      <button class="lnk" type="button" data-go="restore">Бұрын төледім</button>
+    </form>
+  </section>
+
+  <!-- 2. Ожидание -->
+  <section class="view" data-v="wait">
+    <div class="md-h"><p class="md-k" id="wK">Өтінім жіберілді</p><h2 class="serif"><span id="wT">Төлем тексерілуде</span><span class="dots"></span></h2></div>
+    <div class="md-b c">
+      <div class="wait" aria-hidden="true"><i></i><i></i><i></i><span><svg viewBox="0 0 24 24"><path d="M12 20c-4-3-7-5.6-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 3.4-3 6-7 9z" fill="#fff"/></svg></span></div>
+      <p id="wP">Әкімші Kaspi-ден аударымды тексеріп жатыр. Әдетте бұл бірнеше минут алады — расталған соң материалдар өздігінен ашылады.</p>
+      <p class="mute">Терезені немесе бетті жапсаңыз да, тексеру тоқтамайды: сайтқа қайта кіргенде нәтижені көресіз.</p>
+      <p class="ono" id="wNo"></p>
+      <button class="btn b-line" type="button" data-close>Жабу</button>
+    </div>
+  </section>
+
+  <!-- 3. Подтверждено -->
+  <section class="view" data-v="ok">
+    <div class="md-h"><p class="md-k">Рақмет!</p><h2 class="serif" id="oT">Төлем расталды!</h2></div>
+    <div class="md-b c">
+      <div class="ico ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <p>Барлық материалдар ашылды. Енді «Жүктеу» батырмасы файлды бірден жүктейді.</p>
+      <div class="box">
+        <h3>Жеке сілтемеңіз</h3>
+        <div class="fld"><input class="js-link" readonly aria-label="Жеке сілтеме" onclick="this.select()"></div>
+        <button class="btn b-line sm js-copy-link" type="button">Сілтемені көшіру</button>
+        <p>Осы сілтеме арқылы басқа құрылғыда немесе браузер тазартылғаннан кейін қолжетімділікті ашасыз. Сақтап қойыңыз және ешкімге бермеңіз.</p>
+      </div>
+      <button class="btn b-main" type="button" id="oGo" hidden></button>
+      <button class="btn b-open" type="button" data-close data-to-mat>Материалдарға өту</button>
+    </div>
+  </section>
+
+  <!-- 4. Отклонено -->
+  <section class="view" data-v="fail">
+    <div class="md-h"><p class="md-k" id="fK">Өтінім</p><h2 class="serif">Төлем табылмады</h2></div>
+    <div class="md-b c">
+      <div class="ico no" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></div>
+      <p id="fP">Көрсетілген нөмірден аударым табылмады. Сома мен нөмірді тексеріп, қайталап көріңіз.</p>
+      <p>Егер төлеген болсаңыз, байланысыңыз:<br><span class="contact" id="fC"></span></p>
+      <button class="btn b-main" type="button" data-go="pay">Қайта жіберу</button>
+      <button class="btn b-line" type="button" data-close>Жабу</button>
+    </div>
+  </section>
+
+  <!-- 5. Восстановление -->
+  <section class="view" data-v="restore">
+    <div class="md-h"><p class="md-k">Бұрын төледім</p><h2 class="serif">Қолжетімділікті қайтару</h2><p>Төлем кезінде көрсеткен Kaspi нөміріңізді жазыңыз — әкімші тексеріп, қолжетімділікті қайтарады.</p></div>
+    <form class="md-b" id="resF" novalidate>
+      <div class="fld"><label for="rPhone">Kaspi-дағы телефон нөміріңіз</label><input id="rPhone" class="js-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (7XX) XXX-XX-XX"><small class="err" id="rPhoneE"></small></div>
+      <small class="err" id="resE" role="alert"></small>
+      <button class="btn b-main" type="submit" id="resB">Сұрау жіберу</button>
+      <button class="lnk" type="button" data-go="pay">← Төлемге оралу</button>
+    </form>
+  </section>
+
+  <!-- 6. Личная ссылка (из шапки) -->
+  <section class="view" data-v="me">
+    <div class="md-h"><p class="md-k">Қолжетімділік</p><h2 class="serif">Сізде толық қолжетімділік бар ✓</h2></div>
+    <div class="md-b c">
+      <div class="box">
+        <h3>Жеке сілтемеңіз</h3>
+        <div class="fld"><input class="js-link" readonly aria-label="Жеке сілтеме" onclick="this.select()"></div>
+        <button class="btn b-line sm js-copy-link" type="button">Сілтемені көшіру</button>
+        <p>Басқа құрылғыда ашу үшін осы сілтемені өзіңізге жіберіп қойыңыз. Ешкімге бермеңіз.</p>
+      </div>
+      <button class="btn b-open" type="button" data-close>Жабу</button>
+    </div>
+  </section>
+</dialog>
+
+<script>
+{
+const prog=[
+ ['09.30','Қатысушыларды тіркеу',''],
+ ['10.00','Семинардың ашылуы','Құттықтау сөз'],
+ ['10.15','«Өз-өзіңді жақсы көр»','Психологиялық тренинг'],
+ ['10.30','Кәмелетке толмағандардың психологиялық қауіпсіздігі: негізгі қауіп-қатерлер','Баяндама'],
+ ['11.20','Тәуекел тобындағы білім алушыларды ерте анықтау белгілері','Шебер сынып'],
+ ['12.05','Кибербуллинг және цифрлық қауіпсіздік','Шебер сынып'],
+ ['12.45','Түскі ас','Үзіліс','brk'],
+ ['13.30','Профилактикалық жұмыстың тиімді әдістері','Тренинг'],
+ ['14.15','Кешенді сүйемелдеу: психолог, топ жетекшісі және ата-ана','Дөңгелек үстел'],
+ ['15.00','Қорытынды. Кері байланыс','Рефлексия']];
+document.getElementById('plist').innerHTML=prog.map(p=>`<li class="${p[3]||''}"><time>${p[0]}</time><div><h3>${p[1]}</h3>${p[2]?`<small>${p[2]}</small>`:''}</div></li>`).join('');
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const col={pdf:'#d6453a',docx:'#2b66c2'};
+const icon=e=>`<svg viewBox="0 0 50 60"><path d="M4 0h30l16 16v40a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="${col[e]||'#596a7e'}"/><path d="M34 0v12a4 4 0 0 0 4 4h12z" fill="#fff" opacity=".45"/><text x="25" y="44" text-anchor="middle" font-size="12" font-weight="700" font-family="Noto Sans,sans-serif" fill="#fff">${esc(e.toUpperCase())}</text></svg>`;
+const lock=`<svg class="lk" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round"/><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/></svg>`;
+const list=$('list'),empty=$('empty'),q=$('q'),toast=$('toast'),nav=document.querySelector('nav'),md=$('md');
+
+let files=[],cfg={price:666,kaspiPhone:'',kaspiPhoneDisplay:'',hasQr:false,supportContact:''},access=false,link='',intent=null;
+const priceTxt=()=>Number(cfg.price).toLocaleString('ru-RU').replace(/ /g,' ')+' ₸';
+
+let tt;const say=m=>{toast.textContent=m;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('on'),2600)};
+async function api(url,opt={}){
+  const r=await fetch(url,{credentials:'same-origin',cache:'no-store',...opt,headers:{'Accept':'application/json',...(opt.body?{'Content-Type':'application/json'}:{})}});
+  let data={};try{data=await r.json()}catch{}
+  return {ok:r.ok,status:r.status,data};
+}
+const store={
+  get(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}},
+  del(k){try{localStorage.removeItem(k)}catch{}}
+};
+
+/* ---------- materials ---------- */
+function filter(){const v=q.value.trim().toLowerCase();let n=0;for(const el of list.children){const ok=!v||el.dataset.k.includes(v);el.style.display=ok?'':'none';if(ok)n++}empty.style.display=n||!files.length?'none':'block'}
+function render(){
+  $('cnt').textContent=files.length+' файл';
+  for(const el of document.querySelectorAll('.js-cnt'))el.textContent='барлық '+files.length;
+  const L=access?'':lock;
+  list.innerHTML=files.map(x=>`<article class="card" data-k="${esc((x.title+' '+x.description+' '+x.tag).toLowerCase())}">
+  <div class="top"><div class="doc">${icon(x.ext)}</div><div><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></div></div>
+  <div class="meta">${access?'<span class="st ok">✓ Ашық</span>':`<span class="st lk">${lock}${priceTxt()}</span>`}<span>${esc(x.tag)}</span><span>${esc(x.ext.toUpperCase())} · ${esc(x.size)}</span><span>Авторы: Ару Шайлаева</span></div>
+  <div class="acts"><a class="btn b-open op" href="/api/view/${esc(x.id)}" target="_blank" rel="noopener" data-id="${esc(x.id)}">${L}Ашу</a><a class="btn b-main dl" href="/api/download/${esc(x.id)}" data-id="${esc(x.id)}">${L}Жүктеу</a></div>
+</article>`).join('');
+  filter();
+}
+q.addEventListener('input',filter);
+list.addEventListener('click',e=>{
+  const a=e.target.closest('.op,.dl');if(!a)return;
+  const act=a.classList.contains('dl')?'download':'view';
+  if(access){if(act==='download')say('Жүктелуде…');return}
+  e.preventDefault();
+  openPay({id:a.dataset.id,act});
+});
+function setAccess(v,l){
+  access=!!v;if(l)link=l;
+  nav.classList.toggle('has-acc',access);
+  for(const i of document.querySelectorAll('.js-link'))i.value=link;
+  render();
+}
+function runIntent(it){
+  if(!it)return;
+  if(it.act==='view')window.open('/api/view/'+encodeURIComponent(it.id),'_blank','noopener');
+  else{location.href='/api/download/'+encodeURIComponent(it.id);say('Жүктелуде…')}
+}
+
+/* ---------- modal ---------- */
+function show(v){
+  for(const s of md.querySelectorAll('.view'))s.classList.toggle('on',s.dataset.v===v);
+  md.dataset.view=v;
+  if(!md.open)md.showModal();
+  md.scrollTop=0;
+}
+$('mdX').addEventListener('click',()=>md.close());
+md.addEventListener('click',e=>{
+  if(e.target===md){md.close();return}
+  const go=e.target.closest('[data-go]');
+  if(go){if(go.dataset.go==='restore'){if(!$('rPhone').value&&$('pPhone').value)$('rPhone').value=$('pPhone').value}show(go.dataset.go);return}
+  const c=e.target.closest('[data-close]');
+  if(c){md.close();if(c.hasAttribute('data-to-mat'))$('mat').scrollIntoView({behavior:'smooth'})}
+});
+$('acc').addEventListener('click',()=>{for(const i of document.querySelectorAll('.js-link'))i.value=link;show('me')});
+function openPay(it){
+  intent=it||null;
+  const p=store.get('sa_pending');
+  if(p){showWait(p);return}
+  const f=store.get('sa_form')||{};
+  if(f.name&&!$('pName').value)$('pName').value=f.name;
+  if(f.phone&&!$('pPhone').value)$('pPhone').value=fmtPhone(localDigits(f.phone));
+  show('pay');
+}
+
+/* copy */
+async function copy(text,btn,done){
+  let ok=false;
+  try{await navigator.clipboard.writeText(text);ok=true}catch{
+    const t=document.createElement('textarea');t.value=text;t.setAttribute('readonly','');t.style.cssText='position:fixed;top:0;left:0;opacity:0';
+    (md.open?md:document.body).appendChild(t);t.select();try{ok=document.execCommand('copy')}catch{}t.remove();
+  }
+  const old=btn.dataset.t||(btn.dataset.t=btn.textContent);
+  btn.textContent=ok?done:'Көшіру мүмкін болмады';
+  setTimeout(()=>btn.textContent=old,2200);
+}
+$('kpCopy').addEventListener('click',e=>copy(cfg.kaspiPhone,e.currentTarget,'Көшірілді ✓'));
+for(const b of document.querySelectorAll('.js-copy-link'))b.addEventListener('click',e=>copy(link,e.currentTarget,'Көшірілді ✓'));
+
+/* ---------- phone mask: +7 (7XX) XXX-XX-XX ---------- */
+function localDigits(v){
+  let d=String(v||'').replace(/\D/g,'');
+  if(/^\s*\+\s*7/.test(v))d=d.slice(1);
+  while(d.length>10&&(d[0]==='7'||d[0]==='8'))d=d.slice(1);
+  if(d[0]==='8')d=d.slice(1);
+  return d.slice(0,10);
+}
+function fmtPhone(d){
+  if(!d)return '';
+  let s='+7 ('+d.slice(0,3);
+  if(d.length>=3)s+=')';
+  if(d.length>3)s+=' '+d.slice(3,6);
+  if(d.length>6)s+='-'+d.slice(6,8);
+  if(d.length>8)s+='-'+d.slice(8,10);
+  return s;
+}
+const phoneOk=d=>d.length===10&&d[0]==='7';
+for(const inp of document.querySelectorAll('.js-phone')){
+  let prev='';
+  inp.addEventListener('focus',()=>{prev=localDigits(inp.value);if(!inp.value)inp.value='+7 ('});
+  inp.addEventListener('blur',()=>{if(!localDigits(inp.value))inp.value=''});
+  inp.addEventListener('input',e=>{
+    let d=localDigits(inp.value);
+    if(e.inputType&&e.inputType.startsWith('delete')&&d===prev&&inp.value.length<fmtPhone(prev).length)d=d.slice(0,-1);
+    prev=d;
+    inp.value=d?fmtPhone(d):'+7 (';
+    inp.removeAttribute('aria-invalid');$(inp.id+'E').textContent='';
+  });
+}
+function checkPhone(inp){
+  const d=localDigits(inp.value);
+  let m='';
+  if(!d)m='Телефон нөміріңізді жазыңыз';
+  else if(d[0]!=='7')m='Нөмір +7 (7XX) форматында болуы керек';
+  else if(d.length<10)m='Нөмір толық емес: +7 (7XX) XXX-XX-XX';
+  $(inp.id+'E').textContent=m;inp.setAttribute('aria-invalid',m?'true':'false');
+  return m?null:'+7'+d;
+}
+
+/* ---------- pay ---------- */
+for(const id of ['pName','pPhone'])$(id).addEventListener('input',()=>store.set('sa_form',{name:$('pName').value,phone:$('pPhone').value}));
+$('pName').addEventListener('input',()=>{$('pName').removeAttribute('aria-invalid');$('pNameE').textContent=''});
+$('payF').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const name=$('pName').value.trim().replace(/\s+/g,' ');
+  let bad=false;
+  if(name.length<2){$('pNameE').textContent='Аты-жөніңізді жазыңыз';$('pName').setAttribute('aria-invalid','true');bad=true}
+  const phone=checkPhone($('pPhone'));
+  if(!phone)bad=true;
+  if(bad){md.querySelector('[aria-invalid=true]').focus();return}
+  const b=$('payB');b.disabled=true;b.textContent='Жіберілуде…';$('payE').textContent='';
+  try{
+    const r=await api('/api/orders',{method:'POST',body:JSON.stringify({name,phone})});
+    if(!r.ok){$('payE').textContent=r.data.error||'Қате шықты. Қайталап көріңіз.';return}
+    const p={kind:'order',id:r.data.orderId,no:r.data.orderNo};
+    store.set('sa_pending',p);showWait(p);startPoll();
+  }catch{$('payE').textContent='Интернет байланысын тексеріп, қайталап көріңіз.'}
+  finally{b.disabled=false;b.textContent='Төледім'}
+});
+
+/* ---------- restore ---------- */
+$('resF').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const phone=checkPhone($('rPhone'));
+  if(!phone){$('rPhone').focus();return}
+  const b=$('resB');b.disabled=true;b.textContent='Жіберілуде…';$('resE').textContent='';
+  try{
+    const r=await api('/api/restore',{method:'POST',body:JSON.stringify({phone})});
+    if(!r.ok){$('resE').textContent=r.data.error||'Қате шықты. Қайталап көріңіз.';return}
+    const p={kind:'restore',id:r.data.restoreId,no:r.data.requestNo};
+    store.set('sa_pending',p);showWait(p);startPoll();
+  }catch{$('resE').textContent='Интернет байланысын тексеріп, қайталап көріңіз.'}
+  finally{b.disabled=false;b.textContent='Сұрау жіберу'}
+});
+
+/* ---------- waiting / polling ---------- */
+function showWait(p){
+  const r=p.kind==='restore';
+  $('wK').textContent=r?'Сұрау жіберілді':'Өтінім жіберілді';
+  $('wT').textContent=r?'Сұрау тексерілуде':'Төлем тексерілуде';
+  $('wP').textContent=r?'Әкімші төлеміңізді тексеріп жатыр. Расталған соң қолжетімділік осы құрылғыда өздігінен ашылады.':'Әкімші Kaspi-ден аударымды тексеріп жатыр. Әдетте бұл бірнеше минут алады — расталған соң материалдар өздігінен ашылады.';
+  $('wNo').textContent=(r?'Сұрау №':'Өтінім №')+p.no;
+  show('wait');
+}
+let pollT=null,busy=false;
+function startPoll(){clearInterval(pollT);poll();pollT=setInterval(poll,4000)}
+function stopPoll(){clearInterval(pollT);pollT=null}
+async function poll(){
+  const p=store.get('sa_pending');
+  if(!p){stopPoll();return}
+  if(busy)return;busy=true;
+  try{
+    const r=await api(`/api/${p.kind==='restore'?'restore':'orders'}/${encodeURIComponent(p.id)}/status`);
+    if(r.status===404){store.del('sa_pending');stopPoll();if(md.open&&md.dataset.view==='wait')show('pay');return}
+    if(!r.ok)return;
+    if(r.data.status==='paid'){
+      store.del('sa_pending');store.del('sa_form');stopPoll();
+      const me=await api('/api/me');
+      setAccess(me.data.access||true,r.data.link||me.data.link);
+      showOk(p);
+    }else if(r.data.status==='rejected'){
+      store.del('sa_pending');stopPoll();showFail(p);
+    }
+  }catch{}finally{busy=false}
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&store.get('sa_pending'))poll()});
+
+function showOk(p){
+  $('oT').textContent=p&&p.kind==='restore'?'Қолжетімділік қайтарылды!':'Төлем расталды!';
+  const g=$('oGo'),f=intent&&files.find(x=>x.id===intent.id);
+  g.hidden=!f;
+  if(f){g.textContent=(intent.act==='view'?'Ашу: ':'Жүктеу: ')+'«'+f.title+'»';g.dataset.id=f.id;g.dataset.act=intent.act}
+  show('ok');
+}
+$('oGo').addEventListener('click',e=>{const d=e.currentTarget.dataset;md.close();runIntent({id:d.id,act:d.act});intent=null});
+function contactHtml(){
+  const c=cfg.supportContact;
+  if(!c)return 'колледж психологы Ару Шайлаева';
+  const ph=c.replace(/[^\d+]/g,'');
+  if(/^@\w{3,}$/.test(c))return `<a href="https://t.me/${esc(c.slice(1))}" target="_blank" rel="noopener">${esc(c)}</a>`;
+  if(/^https?:\/\//i.test(c))return `<a href="${esc(c)}" target="_blank" rel="noopener">${esc(c)}</a>`;
+  if(/^\+?\d{10,12}$/.test(ph))return `<a href="tel:${esc(ph)}">${esc(c)}</a>`;
+  return esc(c);
+}
+function showFail(p){
+  const r=p&&p.kind==='restore';
+  $('fK').textContent=(r?'Сұрау №':'Өтінім №')+(p?p.no:'');
+  $('fP').textContent=r?'Бұл нөмір бойынша расталған төлем табылмады.':'Көрсетілген нөмірден аударым табылмады. Сома мен нөмірді тексеріп, қайталап көріңіз.';
+  $('fC').innerHTML=contactHtml();
+  show('fail');
+}
+
+/* ---------- start ---------- */
+(async()=>{
+  try{
+    const [c,m,me]=await Promise.all([api('/api/config'),api('/api/materials'),api('/api/me')]);
+    if(c.ok)cfg={...cfg,...c.data};
+    files=m.ok&&Array.isArray(m.data)?m.data:[];
+    if(!m.ok)throw 0;
+    for(const el of document.querySelectorAll('.js-price'))el.textContent=priceTxt();
+    $('kp').textContent=cfg.kaspiPhoneDisplay||cfg.kaspiPhone||'—';
+    $('kpCopy').hidden=!cfg.kaspiPhone;
+    if(cfg.hasQr){$('qrImg').src='/kaspi-qr.png';$('qr').hidden=false}
+    setAccess(me.data.access,me.data.link);
+  }catch{
+    list.innerHTML='';empty.textContent='Материалдарды жүктеу мүмкін болмады. Бетті жаңартып көріңіз.';empty.style.display='block';return;
+  }
+  const u=new URL(location.href),sp=u.searchParams;
+  const a=sp.get('access'),pay=sp.get('pay');
+  if(a||pay){sp.delete('access');sp.delete('pay');history.replaceState(null,'',u.pathname+(sp.toString()?'?'+sp:'')+u.hash)}
+  if(access){
+    store.del('sa_pending');
+    if(a==='ok')say('Қолжетімділік ашылды ✓');
+    return;
+  }
+  if(a==='bad')say('Сілтеме жарамсыз немесе ескірген');
+  if(store.get('sa_pending')){openPay(pay?{id:pay,act:'download'}:null);startPoll();return}
+  if(pay&&files.some(x=>x.id===pay))openPay({id:pay,act:'download'});
+})();
+}
+</script>
+</body>
+</html>

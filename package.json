@@ -1,0 +1,25 @@
+{
+  "name": "seminar-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Семинар материалдары: платный доступ через Kaspi-перевод с подтверждением в Telegram",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node scripts/e2e-test.js"
+  },
+  "engines": {
+    "node": "20.x"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "better-sqlite3": "^12.11.1",
+    "content-disposition": "^1.1.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.5",
+    "grammy": "^1.48.0"
+  }
+}
