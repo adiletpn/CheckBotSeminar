@@ -364,6 +364,26 @@ async function step(name, fn) {
       }
     });
 
+    await step('/reset: чужому — «Рұқсат жоқ»; админ подтверждает → всё стёрто, доступ по старому токену закрыт', async () => {
+      await command(STRANGER, '/reset');
+      assert.equal(lastCall('sendMessage').payload.text, 'Рұқсат жоқ');
+      await press(STRANGER, 'reset:yes');
+      assert.ok(db.recentOrders(1).length);
+      await command(ADMIN, '/reset');
+      assert.deepEqual(lastCall('sendMessage').payload.reply_markup.inline_keyboard.flat().map((b) => b.callback_data), ['reset:yes', 'reset:no']);
+      await press(ADMIN, 'reset:no');
+      assert.ok(db.recentOrders(1).length);
+      assert.equal((await user.req('/api/download/all')).status, 200);
+      await press(ADMIN, 'reset:yes');
+      assert.match(lastCall('editMessageText').payload.text, /Барлығы өшірілді/);
+      assert.equal(db.recentOrders(10).length, 0);
+      assert.equal((await user.req('/api/download/all')).status, 401);
+      assert.equal((await (await user.req('/api/me')).json()).access, false);
+      assert.equal((await user.req(`/api/orders/${order.orderId}/status`)).status, 404);
+      const fresh = await (await client().req('/api/orders', { method: 'POST', json: { name: 'Жаңа', phone: '+77011234567' } })).json();
+      assert.equal(fresh.orderNo, 1); // нумерация с начала
+    });
+
     console.log(`\nВсе проверки пройдены: ${passed}`);
   } catch (e) {
     console.error('\n✗ ОШИБКА:', e.message);

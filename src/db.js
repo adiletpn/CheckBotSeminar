@@ -138,6 +138,13 @@ function openDb(dataDir) {
     unnotifiedOrders: () => q.unnotifiedOrders.all(),
     unnotifiedRestores: () => q.unnotifiedRestores.all(),
 
+    /** Полный сброс: все заявки и восстановления удаляются, токены доступа перестают действовать, нумерация с 1. */
+    resetAll: db.transaction(() => {
+      const n = db.prepare('SELECT (SELECT COUNT(*) FROM orders) + (SELECT COUNT(*) FROM restores) AS n').get().n;
+      db.exec("DELETE FROM restores; DELETE FROM orders; DELETE FROM sqlite_sequence WHERE name IN ('orders','restores');");
+      return n;
+    }),
+
     isTokenValid: (t) => typeof t === 'string' && /^[a-f0-9]{64}$/.test(t) && !!q.tokenValid.get({ t }),
   };
 }

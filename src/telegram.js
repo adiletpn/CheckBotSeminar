@@ -92,7 +92,7 @@ function createTelegram({ config, db, botOptions, log = console }) {
         `Сіздің chat id: <code>${ctx.chat.id}</code>`,
         '',
         isAdmin(ctx)
-          ? '✅ Сіз әкімшісіз. Командалар: /orders, /pending, /stats'
+          ? '✅ Сіз әкімшісіз. Командалар: /pending, /orders, /stats, /reset'
           : 'Осы санды Railway-де ADMIN_CHAT_ID айнымалысына жазыңыз.',
       ].join('\n'),
       html
@@ -147,9 +147,28 @@ function createTelegram({ config, db, botOptions, log = console }) {
     })
   );
 
+  bot.command(
+    'reset',
+    adminOnly((ctx) =>
+      ctx.reply(
+        '⚠️ <b>Барлық өтінімдерді өшіру?</b>\n\nБарлық төлемдер мен статистика жойылады, төлеген адамдардың қолжетімділігі жабылады. Бұл әрекетті қайтару мүмкін емес.',
+        { ...html, reply_markup: new InlineKeyboard().text('🗑 Иә, бәрін өшіру', 'reset:yes').text('Жоқ', 'reset:no') }
+      )
+    )
+  );
+
   // ---------- inline-кнопки ----------
   bot.on('callback_query:data', async (ctx) => {
     if (!isAdmin(ctx)) return ctx.answerCallbackQuery({ text: 'Рұқсат жоқ', show_alert: true });
+
+    if (ctx.callbackQuery.data.startsWith('reset:')) {
+      const yes = ctx.callbackQuery.data === 'reset:yes';
+      const n = yes ? db.resetAll() : 0;
+      if (yes) log.info(`[telegram] /reset: удалено записей: ${n}`);
+      await ctx.answerCallbackQuery({ text: yes ? 'Өшірілді' : 'Болдырылмады' });
+      await ctx.editMessageText(yes ? `🗑 Барлығы өшірілді (${n} жазба). Сайт таза күйде.` : 'Болдырылмады.').catch(() => {});
+      return;
+    }
 
     const m = /^(ok|no|rok|rno):(\d+)$/.exec(ctx.callbackQuery.data);
     if (!m) return ctx.answerCallbackQuery();
@@ -210,6 +229,7 @@ function createTelegram({ config, db, botOptions, log = console }) {
             { command: 'pending', description: 'Расталмаған өтінімдер' },
             { command: 'orders', description: 'Соңғы 10 өтінім' },
             { command: 'stats', description: 'Статистика' },
+            { command: 'reset', description: 'Барлық өтінімдерді өшіру (тесттен кейін)' },
             { command: 'start', description: 'Chat id көрсету' },
           ])
           .catch(() => {});
