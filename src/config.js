@@ -26,6 +26,7 @@ function loadConfig(overrides = {}) {
     kaspiPhone: kaspiNorm || kaspiRaw,
     kaspiPhoneDisplay: kaspiNorm ? formatPhone(kaspiNorm) : kaspiRaw,
     price: int(env.PRICE, 666),
+    oldPrice: int(env.OLD_PRICE, 0), // зачёркнутая «старая» цена (0 — не показывать)
     siteUrl: (env.SITE_URL || '').trim().replace(/\/+$/, ''),
     dataDir: path.resolve(env.DATA_DIR || path.join(ROOT, 'data')),
     supportContact: (env.SUPPORT_CONTACT || '').trim(),

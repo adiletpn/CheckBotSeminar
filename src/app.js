@@ -57,6 +57,7 @@ function createApp({ config, db, telegram, materials, log = console }) {
   app.get('/api/config', noStore, (req, res) => {
     res.json({
       price: config.price,
+      oldPrice: config.oldPrice > config.price ? config.oldPrice : 0,
       kaspiPhone: config.kaspiPhone,
       kaspiPhoneDisplay: config.kaspiPhoneDisplay,
       hasQr: fs.existsSync(config.kaspiQrPath),
