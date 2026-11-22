@@ -167,6 +167,17 @@ async function step(name, fn) {
       assert.deepEqual(btns.map((b) => b.callback_data), [`ok:${order.orderNo}`, `no:${order.orderNo}`]);
     });
 
+    await step('доставленная заявка помечена; досылка не шлёт её повторно, а недоставленную — шлёт', async () => {
+      assert.ok(db.getOrder(order.orderNo).notified_at);
+      assert.equal(await telegram.flushUnnotified(), 0);
+      const { order: lost } = db.createOrder({ name: 'Потерянная', phone: '+77780001111', amount: 666, ip: 'x' }); // как будто админ не был настроен
+      const before = calls.length;
+      assert.equal(await telegram.flushUnnotified(), 1);
+      assert.match(calls.slice(before).find((c) => c.method === 'sendMessage').payload.text, new RegExp(`#${lost.id}`));
+      assert.equal(await telegram.flushUnnotified(), 0);
+      db.rejectOrder(lost.id);
+    });
+
     await step('дубль по тому же телефону возвращает ту же заявку, без нового сообщения', async () => {
       const n = calls.filter((c) => c.method === 'sendMessage').length;
       const r = await user.req('/api/orders', { method: 'POST', json: { name: 'Айгүл', phone: '+77011234567' } });

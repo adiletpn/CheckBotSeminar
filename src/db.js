@@ -44,6 +44,11 @@ function openDb(dataDir) {
     CREATE INDEX IF NOT EXISTS restores_phone_status ON restores(phone, status);
     CREATE INDEX IF NOT EXISTS restores_token ON restores(token);
   `);
+  // миграция: отметка, что админ получил уведомление (для досылки после сбоя)
+  for (const t of ['orders', 'restores']) {
+    const cols = db.prepare(`PRAGMA table_info(${t})`).all().map((c) => c.name);
+    if (!cols.includes('notified_at')) db.exec(`ALTER TABLE ${t} ADD COLUMN notified_at TEXT`);
+  }
 
   const q = {
     orderById: db.prepare('SELECT * FROM orders WHERE id = ?'),
@@ -65,6 +70,11 @@ function openDb(dataDir) {
     insertRestore: db.prepare('INSERT INTO restores (public_id, phone, created_at) VALUES (?, ?, ?)'),
     approveRestore: db.prepare("UPDATE restores SET status = 'approved', token = ?, order_id = ?, resolved_at = ? WHERE id = ? AND status = 'pending'"),
     rejectRestore: db.prepare("UPDATE restores SET status = 'rejected', resolved_at = ? WHERE id = ? AND status = 'pending'"),
+
+    markOrderNotified: db.prepare('UPDATE orders SET notified_at = ? WHERE id = ?'),
+    markRestoreNotified: db.prepare('UPDATE restores SET notified_at = ? WHERE id = ?'),
+    unnotifiedOrders: db.prepare("SELECT * FROM orders WHERE status = 'pending' AND notified_at IS NULL ORDER BY id"),
+    unnotifiedRestores: db.prepare("SELECT * FROM restores WHERE status = 'pending' AND notified_at IS NULL ORDER BY id"),
 
     tokenValid: db.prepare(`SELECT 1 FROM orders WHERE token = @t AND status = 'paid'
                             UNION ALL SELECT 1 FROM restores WHERE token = @t AND status = 'approved' LIMIT 1`),
@@ -122,6 +132,11 @@ function openDb(dataDir) {
       const changed = q.rejectRestore.run(now(), id).changes === 1;
       return { changed, restore: q.restoreById.get(id) };
     },
+
+    markOrderNotified: (id) => q.markOrderNotified.run(now(), id),
+    markRestoreNotified: (id) => q.markRestoreNotified.run(now(), id),
+    unnotifiedOrders: () => q.unnotifiedOrders.all(),
+    unnotifiedRestores: () => q.unnotifiedRestores.all(),
 
     isTokenValid: (t) => typeof t === 'string' && /^[a-f0-9]{64}$/.test(t) && !!q.tokenValid.get({ t }),
   };

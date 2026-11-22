@@ -58,6 +58,7 @@ function createTelegram({ config, db, botOptions, log = console }) {
       bot: null,
       notifyOrder: async (o) => log.info?.(`[telegram:off] заявка #${o.id}: ${o.name}, ${o.phone}, ${o.amount} ₸`),
       notifyRestore: async (r) => log.info?.(`[telegram:off] восстановление #${r.id}: ${r.phone}`),
+      flushUnnotified: async () => 0,
       start: () => {},
       stop: async () => {},
       orderText,
@@ -71,13 +72,15 @@ function createTelegram({ config, db, botOptions, log = console }) {
 
   async function sendToAdmin(text, extra = {}) {
     if (!config.adminChatId) {
-      log.warn('[telegram] ADMIN_CHAT_ID не задан, сообщение не отправлено');
-      return;
+      log.warn('[telegram] ADMIN_CHAT_ID не задан, сообщение не отправлено (будет дослано после настройки)');
+      return false;
     }
     try {
       await bot.api.sendMessage(config.adminChatId, text, { ...html, ...extra });
+      return true;
     } catch (e) {
       log.error('[telegram] не удалось отправить сообщение:', e.description || e.message);
+      return false;
     }
   }
 
@@ -179,6 +182,24 @@ function createTelegram({ config, db, botOptions, log = console }) {
 
   bot.catch((err) => log.error('[telegram] ошибка обработчика:', err.error?.message || err.message));
 
+  async function notifyOrder(o) {
+    if (await sendToAdmin(orderText(o), { reply_markup: orderKeyboard(o) })) db.markOrderNotified(o.id);
+  }
+  async function notifyRestore(r) {
+    if (await sendToAdmin(restoreText(r), { reply_markup: restoreKeyboard(r) })) db.markRestoreNotified(r.id);
+  }
+  /** Дослать заявки, которые не дошли до админа (не был задан ADMIN_CHAT_ID, сбой сети и т.п.) */
+  async function flushUnnotified() {
+    if (!config.adminChatId) return 0;
+    const orders = db.unnotifiedOrders();
+    const restores = db.unnotifiedRestores();
+    for (const o of orders) await notifyOrder(o);
+    for (const r of restores) await notifyRestore(r);
+    const n = orders.length + restores.length;
+    if (n) log.info(`[telegram] дослано неотправленных заявок: ${n}`);
+    return n;
+  }
+
   // ---------- запуск long polling с переподключением ----------
   let stopped = false;
   async function start() {
@@ -194,7 +215,10 @@ function createTelegram({ config, db, botOptions, log = console }) {
           .catch(() => {});
         await bot.start({
           allowed_updates: ['message', 'callback_query'],
-          onStart: (me) => log.info(`[telegram] бот @${me.username} запущен (long polling)`),
+          onStart: (me) => {
+            log.info(`[telegram] бот @${me.username} запущен (long polling)`);
+            flushUnnotified().catch((e) => log.error('[telegram] досылка не удалась:', e.message));
+          },
         });
         return; // bot.stop() вызван
       } catch (e) {
@@ -207,8 +231,9 @@ function createTelegram({ config, db, botOptions, log = console }) {
 
   return {
     bot,
-    notifyOrder: (o) => sendToAdmin(orderText(o), { reply_markup: orderKeyboard(o) }),
-    notifyRestore: (r) => sendToAdmin(restoreText(r), { reply_markup: restoreKeyboard(r) }),
+    notifyOrder,
+    notifyRestore,
+    flushUnnotified,
     start: () => {
       start();
     },
