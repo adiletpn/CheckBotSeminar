@@ -157,7 +157,7 @@ function createApp({ config, db, telegram, log = console }) {
       }
 
       res.set('Cache-Control', 'private, no-store');
-      res.set('Content-Disposition', contentDisposition(m.filename, { type: disposition }));
+      res.set('Content-Disposition', contentDisposition(m.downloadName, { type: disposition }));
       res.sendFile(m.path, (err) => { // Content-Type — по расширению файла
         if (err && !res.headersSent) res.status(404).json({ ok: false, code: 'not_found', error: 'Файл табылмады' });
       });

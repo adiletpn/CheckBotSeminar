@@ -35,6 +35,7 @@ function loadMaterials(file, privateDir) {
       filename: m.filename,
       tag: String(m.tag || ''),
       size: m.size ? String(m.size) : null, // если не указан — считается автоматически
+      downloadName: m.downloadName ? String(m.downloadName) : m.filename, // имя файла при скачивании
       path: abs,
     };
   });
@@ -64,7 +65,7 @@ function loadConfig(overrides = {}) {
     privateDir,
     publicDir,
     kaspiQrPath: path.join(publicDir, 'kaspi-qr.png'),
-    materials: loadMaterials(path.join(ROOT, 'materials.json'), privateDir),
+    materials: loadMaterials(path.resolve(env.MATERIALS_FILE || path.join(ROOT, 'materials.json')), privateDir),
   };
 
   if (!cfg.kaspiPhone) console.warn('[config] ВНИМАНИЕ: KASPI_PHONE не задан');

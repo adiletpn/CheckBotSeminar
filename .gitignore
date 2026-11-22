@@ -5,3 +5,6 @@ data/
 *.db-wal
 *.db-shm
 .DS_Store
+
+# Материалы НЕ храним в git (репозиторий публичный) — на Railway они попадают через `railway up`
+private/*

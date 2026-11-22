@@ -82,8 +82,9 @@ function createTelegram({ config, db, botOptions, log = console }) {
   }
 
   // ---------- команды ----------
-  bot.command('start', (ctx) =>
-    ctx.reply(
+  bot.command('start', (ctx) => {
+    log.info(`[telegram] /start от chat id ${ctx.chat.id}${isAdmin(ctx) ? ' (админ)' : ''}`);
+    return ctx.reply(
       [
         `Сіздің chat id: <code>${ctx.chat.id}</code>`,
         '',
@@ -92,8 +93,8 @@ function createTelegram({ config, db, botOptions, log = console }) {
           : 'Осы санды Railway-де ADMIN_CHAT_ID айнымалысына жазыңыз.',
       ].join('\n'),
       html
-    )
-  );
+    );
+  });
 
   const adminOnly = (handler) => async (ctx) => {
     if (!isAdmin(ctx)) return ctx.reply('Рұқсат жоқ');

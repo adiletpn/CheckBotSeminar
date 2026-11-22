@@ -25,6 +25,7 @@ const config = loadConfig({
   DATA_DIR: dataDir,
   SITE_URL: '',
   ORDER_RATE_LIMIT: '1000', // лимит проверяется отдельно в конце
+  MATERIALS_FILE: path.join(__dirname, 'materials.demo.json'), // 5 демо-PDF
 });
 const db = openDb(config.dataDir);
 
@@ -302,6 +303,27 @@ async function step(name, fn) {
       }
       s2.close();
       assert.deepEqual(codes, [201, 201, 201, 201, 201, 429]);
+    });
+
+    await step('боевой materials.json: архив со всеми материалами скачивается после оплаты', async () => {
+      const real = loadConfig({ DATA_DIR: dataDir, BOT_TOKEN: '' });
+      const app3 = createApp({ config: real, db, telegram, log: { error: console.error } });
+      const s3 = app3.listen(0);
+      await new Promise((r) => s3.once('listening', r));
+      const b = `http://127.0.0.1:${s3.address().port}`;
+      try {
+        const list = await (await fetch(b + '/api/materials')).json();
+        for (const m of list) {
+          assert.equal((await fetch(`${b}/api/download/${m.id}`)).status, 401, m.id);
+          const r = await fetch(`${b}/api/download/${m.id}`, { headers: { cookie: `${COOKIE}=${user.jar[COOKIE]}` } });
+          assert.equal(r.status, 200, m.id);
+          const src = real.materials.find((x) => x.id === m.id);
+          assert.equal(Buffer.from(await r.arrayBuffer()).length, fs.statSync(src.path).size);
+          console.log(`      ${m.id}: ${r.headers.get('content-type')} · ${r.headers.get('content-disposition')}`);
+        }
+      } finally {
+        s3.close();
+      }
     });
 
     console.log(`\nВсе проверки пройдены: ${passed}`);

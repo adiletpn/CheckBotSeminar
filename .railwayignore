@@ -1,0 +1,3 @@
+# railway up загружает папку private/, даже если она в .gitignore
+!private/
+!private/*

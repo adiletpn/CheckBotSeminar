@@ -277,7 +277,7 @@ dialog.md[open]{animation:mdIn .22s ease-out}
 
   <!-- 1. Оплата -->
   <section class="view" data-v="pay">
-    <div class="md-h"><p class="md-k">Бір рет төлейсіз</p><h2 class="serif" id="mdT">Барлық материалдарға толық қолжетімділік — <span class="js-price">666 ₸</span></h2><p>Бір төлем семинардың <span class="js-cnt">барлық</span> материалын ашады.</p></div>
+    <div class="md-h"><p class="md-k">Бір рет төлейсіз</p><h2 class="serif" id="mdT">Барлық материалдарға толық қолжетімділік — <span class="js-price">666 ₸</span></h2><p>Бір төлем семинардың барлық материалдарын ашады.</p></div>
     <form class="md-b" id="payF" novalidate>
       <div class="step"><b>1</b><div><h3>Kaspi арқылы <span class="js-price">666 ₸</span> аударыңыз</h3><p>Kaspi қосымшасы → Аударымдар → Kaspi клиентіне → телефон нөмірі</p></div></div>
       <div class="kaspi"><div><small>Аударым нөмірі</small><strong id="kp">—</strong></div><button type="button" class="btn b-line sm js-copy" id="kpCopy">Нөмірді көшіру</button></div>
@@ -375,7 +375,8 @@ document.getElementById('plist').innerHTML=prog.map(p=>`<li class="${p[3]||''}">
 
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const col={pdf:'#d6453a',docx:'#2b66c2'};
+const col={pdf:'#d6453a',docx:'#2b66c2',zip:'#c98a12',pptx:'#d0632b'};
+const viewable=e=>['pdf','png','jpg','jpeg'].includes(e);
 const icon=e=>`<svg viewBox="0 0 50 60"><path d="M4 0h30l16 16v40a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="${col[e]||'#596a7e'}"/><path d="M34 0v12a4 4 0 0 0 4 4h12z" fill="#fff" opacity=".45"/><text x="25" y="44" text-anchor="middle" font-size="12" font-weight="700" font-family="Noto Sans,sans-serif" fill="#fff">${esc(e.toUpperCase())}</text></svg>`;
 const lock=`<svg class="lk" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round"/><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/></svg>`;
 const list=$('list'),empty=$('empty'),q=$('q'),toast=$('toast'),nav=document.querySelector('nav'),md=$('md');
@@ -399,12 +400,11 @@ const store={
 function filter(){const v=q.value.trim().toLowerCase();let n=0;for(const el of list.children){const ok=!v||el.dataset.k.includes(v);el.style.display=ok?'':'none';if(ok)n++}empty.style.display=n||!files.length?'none':'block'}
 function render(){
   $('cnt').textContent=files.length+' файл';
-  for(const el of document.querySelectorAll('.js-cnt'))el.textContent='барлық '+files.length;
   const L=access?'':lock;
   list.innerHTML=files.map(x=>`<article class="card" data-k="${esc((x.title+' '+x.description+' '+x.tag).toLowerCase())}">
   <div class="top"><div class="doc">${icon(x.ext)}</div><div><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></div></div>
   <div class="meta">${access?'<span class="st ok">✓ Ашық</span>':`<span class="st lk">${lock}${priceTxt()}</span>`}<span>${esc(x.tag)}</span><span>${esc(x.ext.toUpperCase())} · ${esc(x.size)}</span><span>Авторы: Ару Шайлаева</span></div>
-  <div class="acts"><a class="btn b-open op" href="/api/view/${esc(x.id)}" target="_blank" rel="noopener" data-id="${esc(x.id)}">${L}Ашу</a><a class="btn b-main dl" href="/api/download/${esc(x.id)}" data-id="${esc(x.id)}">${L}Жүктеу</a></div>
+  <div class="acts">${viewable(x.ext)?`<a class="btn b-open op" href="/api/view/${esc(x.id)}" target="_blank" rel="noopener" data-id="${esc(x.id)}">${L}Ашу</a>`:''}<a class="btn b-main dl" href="/api/download/${esc(x.id)}" data-id="${esc(x.id)}">${L}Жүктеу</a></div>
 </article>`).join('');
   filter();
 }
