@@ -6,7 +6,8 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const { rateLimit } = require('express-rate-limit');
 const contentDisposition = require('content-disposition');
-const { normalizePhone, formatPhone } = require('./phone');
+const { normalizePhone } = require('./phone');
+const { createMaterials } = require('./materials');
 
 const COOKIE = 'sa_access';
 const YEAR_MS = 365 * 24 * 60 * 60 * 1000;
@@ -16,7 +17,8 @@ function humanSize(bytes) {
   return `${Math.max(1, Math.round(bytes / 1024))} КБ`;
 }
 
-function createApp({ config, db, telegram, log = console }) {
+function createApp({ config, db, telegram, materials, log = console }) {
+  materials = materials || createMaterials({ dir: config.materialsDir, cacheDir: path.join(config.dataDir, 'cache'), title: config.folderTitle, log });
   const app = express();
   app.disable('x-powered-by');
   app.set('trust proxy', config.trustProxy); // Railway стоит за прокси: нужен реальный IP и req.secure
@@ -30,7 +32,6 @@ function createApp({ config, db, telegram, log = console }) {
   app.use(cookieParser());
 
   // ---------- helpers ----------
-  const materialById = new Map(config.materials.map((m) => [m.id, m]));
   const tokenFrom = (req) => req.cookies?.[COOKIE];
   const hasAccess = (req) => db.isTokenValid(tokenFrom(req));
   const baseUrl = (req) => config.siteUrl || `${req.protocol}://${req.get('host')}`;
@@ -64,19 +65,15 @@ function createApp({ config, db, telegram, log = console }) {
   });
 
   app.get('/api/materials', noStore, (req, res) => {
-    res.json(
-      config.materials.map((m) => {
-        let size = m.size;
-        if (!size) {
-          try {
-            size = humanSize(fs.statSync(m.path).size);
-          } catch {
-            size = '';
-          }
-        }
-        return { id: m.id, title: m.title, description: m.description, tag: m.tag, ext: path.extname(m.filename).slice(1).toLowerCase(), size };
-      })
-    );
+    const files = materials.list();
+    const total = files.reduce((n, f) => n + f.size, 0);
+    res.json({
+      title: materials.title,
+      count: files.length,
+      size: files.length ? humanSize(total) : '',
+      // названия файлов внутри папки показываем только после оплаты
+      files: hasAccess(req) ? files.map((f) => ({ id: f.id, name: f.name, ext: f.ext, size: humanSize(f.size) })) : [],
+    });
   });
 
   app.get('/api/me', noStore, (req, res) => {
@@ -139,32 +136,49 @@ function createApp({ config, db, telegram, log = console }) {
   });
 
   // ---------- файлы (только через проверку токена) ----------
-  function sendMaterial(disposition) {
+  function denied(req, res, intent) {
+    res.status(401);
+    if (req.accepts(['html', 'json']) === 'html') {
+      const to = `/?pay=${intent}`;
+      return res.type('html').send(
+        `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=${to}">` +
+          `<p>Қолжетімділік жоқ. <a href="${to}">Төлем бетіне өту</a></p>`
+      );
+    }
+    return res.json({ ok: false, code: 'unauthorized', error: 'Қолжетімділік жоқ' });
+  }
+  const notFound = (res) => res.status(404).json({ ok: false, code: 'not_found', error: 'Файл табылмады' });
+  function send(res, file, name, disposition) {
+    res.set('Cache-Control', 'private, no-store');
+    res.set('Content-Disposition', contentDisposition(name, { type: disposition }));
+    res.sendFile(file, (err) => { // Content-Type — по расширению файла
+      if (err && !res.headersSent) notFound(res);
+    });
+  }
+
+  // вся папка одним ZIP
+  app.get('/api/download/all', async (req, res, next) => {
+    if (!hasAccess(req)) return denied(req, res, 'download');
+    try {
+      const { path: zipPath, files } = await materials.zip();
+      if (!files.length) return notFound(res);
+      send(res, zipPath, `${materials.title}.zip`, 'attachment');
+    } catch (e) {
+      next(e);
+    }
+  });
+
+  // отдельные файлы: id только из списка файлов папки (белый список), никаких путей от пользователя
+  function sendOne(disposition) {
     return (req, res) => {
-      const m = materialById.get(String(req.params.fileId)); // только белый список
-      if (!m) return res.status(404).json({ ok: false, code: 'not_found', error: 'Файл табылмады' });
-
-      if (!hasAccess(req)) {
-        res.status(401);
-        if (req.accepts(['html', 'json']) === 'html') {
-          const to = `/?pay=${encodeURIComponent(m.id)}`;
-          return res.type('html').send(
-            `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=${to}">` +
-              `<p>Қолжетімділік жоқ. <a href="${to}">Төлем бетіне өту</a></p>`
-          );
-        }
-        return res.json({ ok: false, code: 'unauthorized', error: 'Қолжетімділік жоқ' });
-      }
-
-      res.set('Cache-Control', 'private, no-store');
-      res.set('Content-Disposition', contentDisposition(m.downloadName, { type: disposition }));
-      res.sendFile(m.path, (err) => { // Content-Type — по расширению файла
-        if (err && !res.headersSent) res.status(404).json({ ok: false, code: 'not_found', error: 'Файл табылмады' });
-      });
+      const f = /^[a-f0-9]{12}$/.test(req.params.fileId) ? materials.get(req.params.fileId) : null;
+      if (!f) return notFound(res);
+      if (!hasAccess(req)) return denied(req, res, 'view');
+      send(res, f.path, f.name, disposition);
     };
   }
-  app.get('/api/download/:fileId', sendMaterial('attachment'));
-  app.get('/api/view/:fileId', sendMaterial('inline'));
+  app.get('/api/download/:fileId', sendOne('attachment'));
+  app.get('/api/view/:fileId', sendOne('inline'));
 
   // ---------- статика (только public/) ----------
   app.use(express.static(config.publicDir, { index: 'index.html', extensions: false }));

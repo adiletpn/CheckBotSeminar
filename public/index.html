@@ -2,122 +2,81 @@
 <html lang="kk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Семинар материалдары</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ару Базарбаевнаның материалдары</title>
+<meta name="theme-color" content="#145f6b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
-/* VOICE calm, caring, professional – a seminar handout pack for teachers
-   IDEA the seminar's printed folder: a deep cover, a day timeline inside, then the take-away sheets
-   PICTURE a large shield holding a heart, wrapped in soft overlapping circles, a row of people at its foot
-   COLOUR deep teal cover field, white pages, navy ink, coral for every action
-   TYPE Noto Serif Display for titles, Noto Sans for text (full Kazakh Cyrillic)
-   LAYOUT laptop: cover band – title, facts, buttons left, picture right; programme timeline; materials grid; footer. Phone: title, picture, facts, rest stacked */
+/* deep teal cover, white card, navy ink, coral for every action · Noto Serif Display + Noto Sans · mobile first */
 :root{color-scheme:light dark;
---bg:light-dark(#ffffff,#0b1a20);--ink:light-dark(#13233d,#e8f0f3);--mute:light-dark(#596a7e,#9db1bb);
+--bg:light-dark(#eef6f7,#0b1a20);--ink:light-dark(#13233d,#e8f0f3);--mute:light-dark(#596a7e,#9db1bb);
 --cov:light-dark(#145f6b,#0f3f48);--cov2:light-dark(#1e8090,#165a65);--soft:light-dark(#eef6f7,#10282f);
---line:light-dark(#dbe5ea,#21404a);--card:light-dark(#ffffff,#0f242b);--coral:#e4704f;--coral2:#f39b7f}
-:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+--line:light-dark(#dbe5ea,#21404a);--card:light-dark(#ffffff,#0f242b);--coral:#e4704f;--coral2:#f39b7f;
+--teal:light-dark(#1e8090,#6cc3cf);--err:light-dark(#c8392e,#ff8a7a)}
 *{box-sizing:border-box;min-width:0}
-html{scroll-behavior:smooth;scroll-padding-top:72px}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans",system-ui,sans-serif;overflow-x:clip}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 "Noto Sans",system-ui,sans-serif;min-height:100dvh;display:flex;flex-direction:column;overflow-x:clip}
 a{color:inherit}
-.wrap{max-width:1180px;margin:0 auto}
-.band{padding:clamp(36px,5vw,80px) max(5vw,16px)}
 .serif{font-family:"Noto Serif Display",Georgia,serif}
+h1,h2{margin:0}
 
-/* nav */
-nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--cov) 92%,transparent);backdrop-filter:blur(10px);color:#fff}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px max(5vw,16px);max-width:none}
-.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;text-decoration:none}
-.brand i{width:30px;height:30px;border-radius:9px;background:#fff;display:grid;place-items:center}
-.links{display:flex;gap:4px;flex-wrap:wrap}
-.links a{text-decoration:none;font-size:15px;padding:8px 12px;border-radius:8px;opacity:.9}
-.links a:hover{background:rgba(255,255,255,.14);opacity:1}
-
-/* cover */
-.cover{background:radial-gradient(120% 90% at 85% 20%,var(--cov2) 0%,var(--cov) 60%);color:#fff;position:relative;overflow:hidden}
-.cover .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4vw,64px);align-items:center}
-.org{font-size:15px;opacity:.85;margin:0 0 18px}
-h1{font-weight:700;font-size:clamp(32px,4.4vw,54px);line-height:1.06;letter-spacing:-.015em;margin:0 0 18px;text-wrap:balance}
-.lead{font-size:18px;margin:0 0 26px;max-width:54ch;opacity:.93}
-.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 28px;padding:0;list-style:none}
-.facts li{border-top:2px solid rgba(255,255,255,.35);padding-top:10px}
-.facts b{display:block;font-size:13px;font-weight:500;opacity:.75}
-.facts span{font-weight:600;font-size:16px}
-.cta{display:flex;flex-wrap:wrap;gap:10px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:12px;font:600 15px "Noto Sans",sans-serif;text-decoration:none;cursor:pointer;border:0;white-space:nowrap;transition:transform .15s,filter .15s}
-.btn:hover{transform:translateY(-1px)}
-.btn:focus-visible{outline:3px solid var(--coral2);outline-offset:2px}
-.b-main{background:var(--coral);color:#fff;box-shadow:0 6px 18px -8px rgba(228,112,79,.8)}
-.b-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3)}
-.pic{width:100%;aspect-ratio:1/0.82}
-.pic svg{width:100%;height:100%;display:block}
-.float{animation:fl 7s ease-in-out infinite}
-.float.d2{animation-delay:-2.3s}.float.d3{animation-delay:-4.6s}
+/* hero */
+.hero{position:relative;overflow:hidden;color:#fff;background:radial-gradient(120% 90% at 85% 10%,var(--cov2) 0%,var(--cov) 62%);padding:calc(28px + env(safe-area-inset-top)) 20px 92px;text-align:center}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;pointer-events:none;animation:fl 8s ease-in-out infinite}
+.hero::before{width:220px;height:220px;left:-70px;top:-50px;background:#5fb3bf;opacity:.35}
+.hero::after{width:190px;height:190px;right:-60px;bottom:-40px;background:#f39b7f;opacity:.35;animation-delay:-3s}
 @keyframes fl{50%{transform:translateY(-10px)}}
-
-/* programme */
-.sec-h{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin-bottom:26px}
-h2{font-weight:700;font-size:clamp(26px,3vw,38px);line-height:1.1;margin:0}
-.sub{color:var(--mute);margin:6px 0 0}
-.prog{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px}
-.prog li{display:grid;grid-template-columns:112px minmax(0,1fr);gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
-.prog time{font-weight:700;font-variant-numeric:tabular-nums;color:var(--cov2);white-space:nowrap;font-size:17px}
-.prog h3{font-size:17px;margin:0;line-height:1.35}
-.prog small{display:inline-block;margin-top:4px;font-size:13px;color:var(--mute)}
-.prog .brk time,.prog .brk h3{color:var(--coral)}
-
-/* materials */
-.mat{background:var(--soft)}
-.search{width:min(340px,100%)}
-.search input{width:100%;font:16px "Noto Sans",sans-serif;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)}
-.search input:focus{outline:2px solid var(--coral);outline-offset:1px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:14px;transition:transform .2s,box-shadow .2s}
-.card:hover{transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(20,60,80,.45)}
-.top{display:flex;gap:14px;align-items:flex-start}
-.doc{flex:none;width:50px;height:60px;position:relative}
-.doc svg{width:100%;height:100%}
-.card h3{font-size:18px;margin:0 0 4px;line-height:1.3}
-.card p{margin:0;color:var(--mute);font-size:15px}
-.meta{display:flex;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--mute)}
-.meta span{background:var(--soft);border-radius:6px;padding:2px 8px}
-.acts{display:flex;gap:8px;margin-top:auto}
-.acts .btn{flex:1}
-.b-open{background:var(--soft);color:var(--ink)}
-.empty{display:none;padding:28px;text-align:center;color:var(--mute);border:1px dashed var(--line);border-radius:16px;background:var(--card)}
-.note{font-size:13px;color:var(--mute);margin:18px 0 0}
-
-/* footer */
-footer{background:var(--cov);color:#fff}
-footer .wrap{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:end}
-footer h2{font-size:clamp(22px,2.4vw,30px)}
-footer p{margin:8px 0 0;opacity:.85}
-.fr{text-align:right;font-size:14px;opacity:.8}
-.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,160%);opacity:0;visibility:hidden;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:12px;font-size:15px;transition:transform .25s;z-index:20;max-width:calc(100% - 32px)}
-.toast.on{transform:translate(-50%,0);opacity:1;visibility:visible}
-
-@media(max-width:860px){.prog{grid-template-columns:1fr}}
-@media(max-width:760px){.cover .wrap{grid-template-columns:1fr}.pic{order:-1;max-width:400px;margin:0 auto}.links a:not(.k){display:none}footer .wrap{grid-template-columns:1fr}.fr{text-align:left}}
-@media(max-width:520px){.facts{grid-template-columns:1fr}.prog li{grid-template-columns:96px minmax(0,1fr)}.cta{flex-direction:column}.cta .btn{width:100%}}
-@media(prefers-reduced-motion:reduce){.float{animation:none}.btn,.card,.toast{transition:none}html{scroll-behavior:auto}}
-
-/* ===== paid access ===== */
-:root{--teal:light-dark(#1e8090,#6cc3cf);--err:light-dark(#c8392e,#ff8a7a)}
-.btn svg.lk{width:13px;height:13px;flex:none;opacity:.85}
-.acc{display:none;align-items:center;gap:6px;font:600 14px "Noto Sans",sans-serif;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.34);color:#fff;cursor:pointer;white-space:nowrap}
+.hw{position:relative;z-index:1;max-width:560px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:12px}
+.mark{width:58px;height:58px;border-radius:18px;background:#fff;display:grid;place-items:center;box-shadow:0 10px 26px -12px rgba(0,0,0,.45)}
+.kick{margin:0;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+h1{font-weight:700;font-size:clamp(30px,8.4vw,46px);line-height:1.08;letter-spacing:-.01em;text-wrap:balance}
+.acc{display:none;align-items:center;gap:6px;font:600 14px "Noto Sans",sans-serif;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.34);color:#fff;cursor:pointer;margin-top:4px}
 .acc:hover{background:rgba(255,255,255,.24)}
-.acc:focus-visible{outline:3px solid var(--coral2);outline-offset:2px}
-nav.has-acc .acc{display:inline-flex}
-nav.has-acc .links{margin-left:auto}
-.meta .st{display:inline-flex;align-items:center;gap:5px;font-weight:600}
-.meta .st svg{width:11px;height:11px}
-.meta .st.lk{background:color-mix(in srgb,var(--coral) 15%,transparent);color:var(--coral)}
-.meta .st.ok{background:color-mix(in srgb,var(--teal) 16%,transparent);color:var(--teal)}
+body.has-acc .acc{display:inline-flex}
 
+/* main */
+main{flex:1;width:100%;max-width:560px;margin:-64px auto 0;padding:0 16px 28px;position:relative;z-index:2}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 20px;border-radius:14px;font:600 16px "Noto Sans",sans-serif;text-decoration:none;cursor:pointer;border:0;white-space:nowrap;transition:transform .15s,filter .15s;-webkit-tap-highlight-color:transparent}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible,.acc:focus-visible{outline:3px solid var(--coral2);outline-offset:2px}
+.b-main{background:var(--coral);color:#fff;box-shadow:0 8px 20px -10px rgba(228,112,79,.9)}
+.b-open{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.btn svg.lk{width:14px;height:14px;flex:none;opacity:.85}
+
+.folder{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 24px 50px -30px rgba(10,50,60,.55);display:flex;flex-direction:column;gap:18px}
+.fh{display:flex;align-items:center;gap:16px}
+.fic{flex:none;width:72px;height:60px}
+.fic svg{width:100%;height:100%;display:block}
+.folder h2{font-size:21px;line-height:1.25}
+.fm{margin:6px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-size:14px;color:var(--mute)}
+.st{display:inline-flex;align-items:center;gap:5px;font-weight:600;font-size:13px;border-radius:7px;padding:2px 9px}
+.st svg{width:11px;height:11px}
+.st.lk{background:color-mix(in srgb,var(--coral) 15%,transparent);color:var(--coral)}
+.st.ok{background:color-mix(in srgb,var(--teal) 16%,transparent);color:var(--teal)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.flist{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.flist[hidden]{display:none}
+.flist li{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.flist li:last-child{border-bottom:0;padding-bottom:0}
+.fi{flex:none;width:30px;height:36px}
+.fi svg{width:100%;height:100%}
+.fn{flex:1;font-size:15px;line-height:1.3;word-break:break-word}
+.fn small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
+.fa{display:flex;gap:6px;flex:none}
+.sm{min-height:40px;padding:0 12px;font-size:14px;border-radius:10px}
+.hint{margin:16px 4px 0;text-align:center;color:var(--mute);font-size:14px}
+.empty{text-align:center;color:var(--mute);padding:8px 0}
+footer{text-align:center;color:var(--mute);font-size:13px;padding:6px 16px calc(20px + env(safe-area-inset-bottom))}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,160%);opacity:0;visibility:hidden;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:12px;font-size:15px;transition:transform .25s;z-index:20;max-width:calc(100% - 32px)}
+.toast.on{transform:translate(-50%,0);opacity:1;visibility:visible}
+@media(min-width:700px){.hero{padding-top:56px;padding-bottom:110px}main{margin-top:-74px}.folder{padding:28px}}
+
+/* ===== modal ===== */
+.view{display:none}.view.on{display:block}
+.md [hidden]{display:none!important}
 /* modal */
 html:has(dialog.md[open]){overflow:hidden}
 dialog.md{border:0;padding:0;margin:auto;width:min(480px,calc(100% - 32px));max-width:none;max-height:calc(100dvh - 32px);border-radius:22px;background:var(--card);color:var(--ink);box-shadow:0 30px 80px -24px rgba(6,40,48,.6);overflow:auto;overscroll-behavior:contain}
@@ -127,8 +86,6 @@ dialog.md[open]{animation:mdIn .22s ease-out}
 .md-x{position:absolute;top:12px;right:12px;z-index:2;width:40px;height:40px;border-radius:12px;border:0;background:rgba(255,255,255,.16);color:#fff;font:400 26px/1 "Noto Sans",sans-serif;cursor:pointer;display:grid;place-items:center}
 .md-x:hover{background:rgba(255,255,255,.26)}
 .md-x:focus-visible{outline:3px solid var(--coral2);outline-offset:2px}
-.view{display:none}.view.on{display:block}
-.md [hidden]{display:none!important}
 .md-h{background:radial-gradient(120% 140% at 85% 0%,var(--cov2) 0%,var(--cov) 70%);color:#fff;padding:24px 64px 22px 24px}
 .md-h h2{font-size:clamp(22px,5.4vw,27px);line-height:1.18}
 .md-h p{margin:8px 0 0;opacity:.9;font-size:15px}
@@ -192,84 +149,39 @@ dialog.md[open]{animation:mdIn .22s ease-out}
   @keyframes mdUp{from{transform:translateY(40px);opacity:.4}}
   .md-h{padding:22px 60px 20px 18px}.md-b{padding:20px 18px calc(24px + env(safe-area-inset-bottom))}
   .kaspi strong{font-size:19px}
-  nav.has-acc .wrap{flex-wrap:wrap;row-gap:6px}
-  nav.has-acc .links{display:none}
-  nav.has-acc .acc{width:100%;justify-content:center;font-size:13px;padding:6px 12px}
 }
-@media(prefers-reduced-motion:reduce){.wait i,.wait span,.dots::after,dialog.md[open],.ico.ok path{animation:none}.wait i{opacity:.5}.ico.ok path{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.hero::before,.hero::after,.wait i,.wait span,.dots::after,dialog.md[open],.ico.ok path{animation:none}.wait i{opacity:.5}.ico.ok path{stroke-dashoffset:0}.btn,.toast{transition:none}}
 </style>
 </head>
 <body>
-<nav>
-  <div class="wrap">
-    <a class="brand" href="#top"><i><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z" fill="#145f6b"/><path d="M12 17c-2.6-2-4-3.4-4-5.2A2.2 2.2 0 0 1 12 10.6a2.2 2.2 0 0 1 4 1.2c0 1.8-1.4 3.2-4 5.2z" fill="#e4704f"/></svg></i>Психологиялық қауіпсіздік</a>
-    <div class="links"><a href="#prog">Бағдарлама</a><a class="k" href="#mat">Материалдар</a><a href="#contact">Байланыс</a></div>
+<header class="hero">
+  <div class="hw">
+    <i class="mark" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z" fill="#145f6b"/><path d="M12 17c-2.6-2-4-3.4-4-5.2A2.2 2.2 0 0 1 12 10.6a2.2 2.2 0 0 1 4 1.2c0 1.8-1.4 3.2-4 5.2z" fill="#e4704f"/></svg></i>
+    <p class="kick">Семинар материалдары</p>
+    <h1 class="serif">Ару Базарбаевнаның материалдары</h1>
     <button class="acc" id="acc" type="button" title="Жеке сілтемені көру">Сізде толық қолжетімділік бар ✓</button>
-  </div>
-</nav>
-
-<header class="band cover" id="top">
-  <div class="wrap">
-    <div>
-      <p class="org">Құлан агротехникалық жоғары колледжі · психологиялық-педагогикалық семинар</p>
-      <h1 class="serif">Кәмелетке толмағандардың психологиялық қауіпсіздігі</h1>
-      <p class="lead">Қауіп-қатерді ерте анықтау, профилактика және кешенді сүйемелдеу. Семинардың барлық материалдары осы жерде – керегін ашып немесе жүктеп алыңыз.</p>
-      <ul class="facts">
-        <li><b>Өтетін орны</b><span>Колледж, АКТ залы</span></li>
-        <li><b>Уақыты</b><span>09.30–15.00</span></li>
-        <li><b>Материалдар</b><span id="cnt">5 файл</span></li>
-      </ul>
-      <div class="cta"><a class="btn b-main" href="#mat">Материалдарды жүктеу ↓</a><a class="btn b-ghost" href="#prog">Бағдарламаны көру</a></div>
-    </div>
-    <div class="pic" aria-hidden="true">
-      <svg viewBox="0 0 600 492">
-        <defs>
-          <linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e3f1f3"/></linearGradient>
-          <linearGradient id="ht" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f39b7f"/><stop offset="1" stop-color="#d9583a"/></linearGradient>
-          <g id="pp"><circle cx="0" cy="0" r="13"/><rect x="-21" y="18" width="42" height="40" rx="18"/></g>
-        </defs>
-        <g class="float"><circle cx="150" cy="170" r="110" fill="#5fb3bf" opacity=".45"/><circle cx="470" cy="300" r="80" fill="#8fb4e8" opacity=".4"/></g>
-        <g class="float d2"><circle cx="300" cy="120" r="120" fill="#ffffff" opacity=".14"/><circle cx="460" cy="150" r="100" fill="#f39b7f" opacity=".45"/></g>
-        <g class="float d3"><circle cx="190" cy="310" r="85" fill="#a7dcc0" opacity=".42"/><circle cx="400" cy="320" r="95" fill="#f6d79f" opacity=".42"/></g>
-        <ellipse cx="300" cy="372" rx="120" ry="14" fill="#06323a" opacity=".35"/>
-        <path d="M300 70 L415 98 Q425 101 425 112 L425 205 Q425 300 300 362 Q175 300 175 205 L175 112 Q175 101 185 98 Z" fill="url(#sh)"/>
-        <path d="M300 70 L415 98 Q425 101 425 112 L425 205 Q425 300 300 362 Z" fill="#cfe6ea" opacity=".55"/>
-        <path d="M300 300 C258 268 228 244 228 208 C228 182 247 165 270 165 C285 165 295 173 300 184 C305 173 315 165 330 165 C353 165 372 182 372 208 C372 244 342 268 300 300 Z" fill="url(#ht)"/>
-        <path d="M262 186 Q270 176 284 180" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" opacity=".7"/>
-        <g fill="#ffffff" opacity=".95">
-          <use href="#pp" x="120" y="416"/><use href="#pp" x="180" y="416" opacity=".8"/><use href="#pp" x="240" y="416"/><use href="#pp" x="300" y="416" opacity=".8"/>
-          <use href="#pp" x="360" y="416"/><use href="#pp" x="420" y="416" opacity=".8"/><use href="#pp" x="480" y="416"/>
-        </g>
-      </svg>
-    </div>
   </div>
 </header>
 
-<section class="band" id="prog">
-  <div class="wrap">
-    <div class="sec-h"><div><h2 class="serif">Семинар бағдарламасы</h2><p class="sub">Бір күндік кесте, АКТ залы</p></div></div>
-    <ol class="prog" id="plist"></ol>
-  </div>
-</section>
-
-<section class="band mat" id="mat">
-  <div class="wrap">
-    <div class="sec-h">
-      <div><h2 class="serif">Материалдар</h2><p class="sub">Дайындаған: колледж психологы <b>Ару Шайлаева</b> · «Жүктеу» батырмасын бассаңыз, файл бірден жүктеледі</p></div>
-      <div class="search"><input id="q" type="search" placeholder="Іздеу: жадынама, тренинг…" aria-label="Материал іздеу"></div>
+<main>
+  <article class="folder" id="mat">
+    <div class="fh">
+      <div class="fic" aria-hidden="true"><svg viewBox="0 0 72 60"><path d="M6 4h20l7 7h33a6 6 0 0 1 6 6v37a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V10a6 6 0 0 1 6-6z" fill="#1e8090"/><path d="M0 20a6 6 0 0 1 6-6h60a6 6 0 0 1 6 6v34a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6z" fill="#2c9aab"/><rect x="10" y="24" width="30" height="5" rx="2.5" fill="#fff" opacity=".55"/><circle cx="58" cy="44" r="8" fill="#e4704f"/><path d="M58 39.5v7M54.8 43.6l3.2 3.2 3.2-3.2" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div>
+        <h2 class="serif" id="fTitle">Семинар материалдары</h2>
+        <p class="fm"><span id="fInfo">Жүктелуде…</span><span class="st lk" id="fSt"></span></p>
+      </div>
     </div>
-    <div class="grid" id="list"></div>
-    <div class="empty" id="empty">Ештеңе табылмады. Басқа сөзбен іздеп көріңіз.</div>
-    <p class="note">Демо нұсқа: файлдар үлгі ретінде қойылған, кейін нақты материалдармен ауыстырылады.</p>
-  </div>
-</section>
+    <div class="acts">
+      <button class="btn b-open" type="button" id="bOpen">Ашу</button>
+      <a class="btn b-main" id="bDl" href="/api/download/all">Жүктеу</a>
+    </div>
+    <ul class="flist" id="flist" hidden></ul>
+  </article>
+  <p class="hint" id="hint">Бір рет төлейсіз — папкадағы барлық материал ашылады.</p>
+</main>
 
-<footer class="band" id="contact">
-  <div class="wrap">
-    <div><h2 class="serif">Сұрағыңыз бар ма?</h2><p>Колледж психологы Ару Шайлаеваға жүгініңіз – кез келген сұрақ бойынша құпия кеңес береміз.</p></div>
-    <div class="fr">Құлан агротехникалық жоғары колледжі<br>Құлан, 2026</div>
-  </div>
-</footer>
+<footer>© 2026 · Ару Базарбаевна</footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <dialog class="md" id="md" aria-labelledby="mdT">
@@ -277,7 +189,7 @@ dialog.md[open]{animation:mdIn .22s ease-out}
 
   <!-- 1. Оплата -->
   <section class="view" data-v="pay">
-    <div class="md-h"><p class="md-k">Бір рет төлейсіз</p><h2 class="serif" id="mdT">Барлық материалдарға толық қолжетімділік — <span class="js-price">666 ₸</span></h2><p>Бір төлем семинардың барлық материалдарын ашады.</p></div>
+    <div class="md-h"><p class="md-k">Бір рет төлейсіз</p><h2 class="serif" id="mdT">Барлық материалдарға толық қолжетімділік — <span class="js-price">666 ₸</span></h2><p>Бір төлем папкадағы барлық материалды ашады.</p></div>
     <form class="md-b" id="payF" novalidate>
       <div class="step"><b>1</b><div><h3>Kaspi арқылы <span class="js-price">666 ₸</span> аударыңыз</h3><p>Kaspi қосымшасы → Аударымдар → Kaspi клиентіне → телефон нөмірі</p></div></div>
       <div class="kaspi"><div><small>Аударым нөмірі</small><strong id="kp">—</strong></div><button type="button" class="btn b-line sm js-copy" id="kpCopy">Нөмірді көшіру</button></div>
@@ -308,7 +220,7 @@ dialog.md[open]{animation:mdIn .22s ease-out}
     <div class="md-h"><p class="md-k">Рақмет!</p><h2 class="serif" id="oT">Төлем расталды!</h2></div>
     <div class="md-b c">
       <div class="ico ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <p>Барлық материалдар ашылды. Енді «Жүктеу» батырмасы файлды бірден жүктейді.</p>
+      <p>Папка ашылды. Енді «Ашу» мен «Жүктеу» бірден жұмыс істейді.</p>
       <div class="box">
         <h3>Жеке сілтемеңіз</h3>
         <div class="fld"><input class="js-link" readonly aria-label="Жеке сілтеме" onclick="this.select()"></div>
@@ -316,7 +228,7 @@ dialog.md[open]{animation:mdIn .22s ease-out}
         <p>Осы сілтеме арқылы басқа құрылғыда немесе браузер тазартылғаннан кейін қолжетімділікті ашасыз. Сақтап қойыңыз және ешкімге бермеңіз.</p>
       </div>
       <button class="btn b-main" type="button" id="oGo" hidden></button>
-      <button class="btn b-open" type="button" data-close data-to-mat>Материалдарға өту</button>
+      <button class="btn b-open" type="button" data-close data-to-mat>Папкаға өту</button>
     </div>
   </section>
 
@@ -360,28 +272,15 @@ dialog.md[open]{animation:mdIn .22s ease-out}
 
 <script>
 {
-const prog=[
- ['09.30','Қатысушыларды тіркеу',''],
- ['10.00','Семинардың ашылуы','Құттықтау сөз'],
- ['10.15','«Өз-өзіңді жақсы көр»','Психологиялық тренинг'],
- ['10.30','Кәмелетке толмағандардың психологиялық қауіпсіздігі: негізгі қауіп-қатерлер','Баяндама'],
- ['11.20','Тәуекел тобындағы білім алушыларды ерте анықтау белгілері','Шебер сынып'],
- ['12.05','Кибербуллинг және цифрлық қауіпсіздік','Шебер сынып'],
- ['12.45','Түскі ас','Үзіліс','brk'],
- ['13.30','Профилактикалық жұмыстың тиімді әдістері','Тренинг'],
- ['14.15','Кешенді сүйемелдеу: психолог, топ жетекшісі және ата-ана','Дөңгелек үстел'],
- ['15.00','Қорытынды. Кері байланыс','Рефлексия']];
-document.getElementById('plist').innerHTML=prog.map(p=>`<li class="${p[3]||''}"><time>${p[0]}</time><div><h3>${p[1]}</h3>${p[2]?`<small>${p[2]}</small>`:''}</div></li>`).join('');
-
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const col={pdf:'#d6453a',docx:'#2b66c2',zip:'#c98a12',pptx:'#d0632b'};
+const col={pdf:'#d6453a',doc:'#2b66c2',docx:'#2b66c2',ppt:'#d0632b',pptx:'#d0632b',xls:'#1f7a45',xlsx:'#1f7a45',zip:'#c98a12',jpg:'#7a5bc2',jpeg:'#7a5bc2',png:'#7a5bc2',mp4:'#3b4a8c'};
+const icon=e=>`<svg viewBox="0 0 50 60"><path d="M4 0h30l16 16v40a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="${col[e]||'#596a7e'}"/><path d="M34 0v12a4 4 0 0 0 4 4h12z" fill="#fff" opacity=".45"/><text x="25" y="44" text-anchor="middle" font-size="${e.length>3?11:13}" font-weight="700" font-family="Noto Sans,sans-serif" fill="#fff">${esc(e.toUpperCase().slice(0,4))}</text></svg>`;
 const viewable=e=>['pdf','png','jpg','jpeg'].includes(e);
-const icon=e=>`<svg viewBox="0 0 50 60"><path d="M4 0h30l16 16v40a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="${col[e]||'#596a7e'}"/><path d="M34 0v12a4 4 0 0 0 4 4h12z" fill="#fff" opacity=".45"/><text x="25" y="44" text-anchor="middle" font-size="12" font-weight="700" font-family="Noto Sans,sans-serif" fill="#fff">${esc(e.toUpperCase())}</text></svg>`;
 const lock=`<svg class="lk" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round"/><rect x="4" y="10" width="16" height="11" rx="3" fill="currentColor"/></svg>`;
-const list=$('list'),empty=$('empty'),q=$('q'),toast=$('toast'),nav=document.querySelector('nav'),md=$('md');
+const toast=$('toast'),md=$('md'),flist=$('flist');
 
-let files=[],cfg={price:666,kaspiPhone:'',kaspiPhoneDisplay:'',hasQr:false,supportContact:''},access=false,link='',intent=null;
+let folder={title:'',count:0,size:'',files:[]},cfg={price:666,kaspiPhone:'',kaspiPhoneDisplay:'',hasQr:false,supportContact:''},access=false,link='',intent=null;
 const priceTxt=()=>Number(cfg.price).toLocaleString('ru-RU').replace(/ /g,' ')+' ₸';
 
 let tt;const say=m=>{toast.textContent=m;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('on'),2600)};
@@ -396,36 +295,49 @@ const store={
   del(k){try{localStorage.removeItem(k)}catch{}}
 };
 
-/* ---------- materials ---------- */
-function filter(){const v=q.value.trim().toLowerCase();let n=0;for(const el of list.children){const ok=!v||el.dataset.k.includes(v);el.style.display=ok?'':'none';if(ok)n++}empty.style.display=n||!files.length?'none':'block'}
+/* ---------- folder ---------- */
 function render(){
-  $('cnt').textContent=files.length+' файл';
+  if(folder.title)$('fTitle').textContent=folder.title;
+  $('fInfo').textContent=folder.count?`${folder.count} файл · ${folder.size}`:'Папка әзірге бос';
+  const st=$('fSt');
+  st.className='st '+(access?'ok':'lk');
+  st.innerHTML=access?'✓ Ашық':lock+priceTxt();
   const L=access?'':lock;
-  list.innerHTML=files.map(x=>`<article class="card" data-k="${esc((x.title+' '+x.description+' '+x.tag).toLowerCase())}">
-  <div class="top"><div class="doc">${icon(x.ext)}</div><div><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></div></div>
-  <div class="meta">${access?'<span class="st ok">✓ Ашық</span>':`<span class="st lk">${lock}${priceTxt()}</span>`}<span>${esc(x.tag)}</span><span>${esc(x.ext.toUpperCase())} · ${esc(x.size)}</span><span>Авторы: Ару Шайлаева</span></div>
-  <div class="acts">${viewable(x.ext)?`<a class="btn b-open op" href="/api/view/${esc(x.id)}" target="_blank" rel="noopener" data-id="${esc(x.id)}">${L}Ашу</a>`:''}<a class="btn b-main dl" href="/api/download/${esc(x.id)}" data-id="${esc(x.id)}">${L}Жүктеу</a></div>
-</article>`).join('');
-  filter();
+  $('bOpen').innerHTML=L+(flist.hidden?'Ашу':'Жабу');
+  $('bDl').innerHTML=L+'Жүктеу';
+  $('hint').hidden=access;
+  flist.innerHTML=folder.files.map(f=>`<li><div class="fi">${icon(f.ext)}</div><div class="fn">${esc(f.name)}<small>${esc(f.size)}</small></div><div class="fa">${viewable(f.ext)?`<a class="btn b-open sm" href="/api/view/${esc(f.id)}" target="_blank" rel="noopener">Ашу</a>`:''}<a class="btn b-main sm" href="/api/download/${esc(f.id)}">Жүктеу</a></div></li>`).join('')||'<li class="empty">Файлдар жоқ</li>';
 }
-q.addEventListener('input',filter);
-list.addEventListener('click',e=>{
-  const a=e.target.closest('.op,.dl');if(!a)return;
-  const act=a.classList.contains('dl')?'download':'view';
-  if(access){if(act==='download')say('Жүктелуде…');return}
-  e.preventDefault();
-  openPay({id:a.dataset.id,act});
+async function loadFolder(){
+  const m=await api('/api/materials');
+  if(m.ok)folder=m.data;
+  return m.ok;
+}
+function openFolder(show){
+  flist.hidden=!show;render();
+  if(show)flist.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+$('bOpen').addEventListener('click',()=>{
+  if(!access){openPay({act:'view'});return}
+  openFolder(flist.hidden);
 });
-function setAccess(v,l){
+$('bDl').addEventListener('click',e=>{
+  if(!access){e.preventDefault();openPay({act:'download'});return}
+  say('Жүктелуде…');
+});
+flist.addEventListener('click',e=>{if(e.target.closest('a[href^="/api/download/"]'))say('Жүктелуде…')});
+async function setAccess(v,l){
+  const was=access;
   access=!!v;if(l)link=l;
-  nav.classList.toggle('has-acc',access);
+  document.body.classList.toggle('has-acc',access);
   for(const i of document.querySelectorAll('.js-link'))i.value=link;
+  if(access&&!was)await loadFolder();
   render();
 }
 function runIntent(it){
   if(!it)return;
-  if(it.act==='view')window.open('/api/view/'+encodeURIComponent(it.id),'_blank','noopener');
-  else{location.href='/api/download/'+encodeURIComponent(it.id);say('Жүктелуде…')}
+  if(it.act==='view')openFolder(true);
+  else{location.href='/api/download/all';say('Жүктелуде…')}
 }
 
 /* ---------- modal ---------- */
@@ -441,7 +353,7 @@ md.addEventListener('click',e=>{
   const go=e.target.closest('[data-go]');
   if(go){if(go.dataset.go==='restore'){if(!$('rPhone').value&&$('pPhone').value)$('rPhone').value=$('pPhone').value}show(go.dataset.go);return}
   const c=e.target.closest('[data-close]');
-  if(c){md.close();if(c.hasAttribute('data-to-mat'))$('mat').scrollIntoView({behavior:'smooth'})}
+  if(c){md.close();if(c.hasAttribute('data-to-mat'))$('mat').scrollIntoView({behavior:'smooth',block:'center'})}
 });
 $('acc').addEventListener('click',()=>{for(const i of document.querySelectorAll('.js-link'))i.value=link;show('me')});
 function openPay(it){
@@ -567,7 +479,7 @@ async function poll(){
     if(r.data.status==='paid'){
       store.del('sa_pending');store.del('sa_form');stopPoll();
       const me=await api('/api/me');
-      setAccess(me.data.access||true,r.data.link||me.data.link);
+      await setAccess(me.data.access||true,r.data.link||me.data.link);
       showOk(p);
     }else if(r.data.status==='rejected'){
       store.del('sa_pending');stopPoll();showFail(p);
@@ -578,15 +490,15 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&store.get
 
 function showOk(p){
   $('oT').textContent=p&&p.kind==='restore'?'Қолжетімділік қайтарылды!':'Төлем расталды!';
-  const g=$('oGo'),f=intent&&files.find(x=>x.id===intent.id);
-  g.hidden=!f;
-  if(f){g.textContent=(intent.act==='view'?'Ашу: ':'Жүктеу: ')+'«'+f.title+'»';g.dataset.id=f.id;g.dataset.act=intent.act}
+  const g=$('oGo');
+  g.hidden=!intent;
+  if(intent){g.textContent=intent.act==='view'?'Папканы ашу':'Папканы жүктеу';g.dataset.act=intent.act}
   show('ok');
 }
-$('oGo').addEventListener('click',e=>{const d=e.currentTarget.dataset;md.close();runIntent({id:d.id,act:d.act});intent=null});
+$('oGo').addEventListener('click',e=>{md.close();runIntent({act:e.currentTarget.dataset.act});intent=null});
 function contactHtml(){
   const c=cfg.supportContact;
-  if(!c)return 'колледж психологы Ару Шайлаева';
+  if(!c)return 'Ару Базарбаевна';
   const ph=c.replace(/[^\d+]/g,'');
   if(/^@\w{3,}$/.test(c))return `<a href="https://t.me/${esc(c.slice(1))}" target="_blank" rel="noopener">${esc(c)}</a>`;
   if(/^https?:\/\//i.test(c))return `<a href="${esc(c)}" target="_blank" rel="noopener">${esc(c)}</a>`;
@@ -604,17 +516,19 @@ function showFail(p){
 /* ---------- start ---------- */
 (async()=>{
   try{
-    const [c,m,me]=await Promise.all([api('/api/config'),api('/api/materials'),api('/api/me')]);
+    const [c,me]=await Promise.all([api('/api/config'),api('/api/me')]);
     if(c.ok)cfg={...cfg,...c.data};
-    files=m.ok&&Array.isArray(m.data)?m.data:[];
-    if(!m.ok)throw 0;
+    if(!(await loadFolder()))throw 0;
     for(const el of document.querySelectorAll('.js-price'))el.textContent=priceTxt();
     $('kp').textContent=cfg.kaspiPhoneDisplay||cfg.kaspiPhone||'—';
     $('kpCopy').hidden=!cfg.kaspiPhone;
     if(cfg.hasQr){$('qrImg').src='/kaspi-qr.png';$('qr').hidden=false}
-    setAccess(me.data.access,me.data.link);
+    access=!!me.data.access;link=me.data.link||'';
+    document.body.classList.toggle('has-acc',access);
+    for(const i of document.querySelectorAll('.js-link'))i.value=link;
+    render();
   }catch{
-    list.innerHTML='';empty.textContent='Материалдарды жүктеу мүмкін болмады. Бетті жаңартып көріңіз.';empty.style.display='block';return;
+    $('fInfo').textContent='Жүктеу мүмкін болмады. Бетті жаңартып көріңіз.';return;
   }
   const u=new URL(location.href),sp=u.searchParams;
   const a=sp.get('access'),pay=sp.get('pay');
@@ -625,8 +539,9 @@ function showFail(p){
     return;
   }
   if(a==='bad')say('Сілтеме жарамсыз немесе ескірген');
-  if(store.get('sa_pending')){openPay(pay?{id:pay,act:'download'}:null);startPoll();return}
-  if(pay&&files.some(x=>x.id===pay))openPay({id:pay,act:'download'});
+  const it=pay==='view'||pay==='download'?{act:pay}:null;
+  if(store.get('sa_pending')){openPay(it);startPoll();return}
+  if(it)openPay(it);
 })();
 }
 </script>

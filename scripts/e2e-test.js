@@ -8,6 +8,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const assert = require('assert/strict');
+const crypto = require('crypto');
 const { loadConfig } = require('../src/config');
 const { openDb } = require('../src/db');
 const { createTelegram } = require('../src/telegram');
@@ -16,6 +17,13 @@ const { createApp, COOKIE } = require('../src/app');
 const ADMIN = '111111';
 const STRANGER = '222222';
 const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'seminar-e2e-'));
+// папка с материалами для теста: 5 демо-PDF
+const matDir = path.join(dataDir, 'materials');
+fs.mkdirSync(matDir);
+for (const f of fs.readdirSync(path.join(__dirname, 'fixtures'))) fs.copyFileSync(path.join(__dirname, 'fixtures', f), path.join(matDir, f));
+fs.writeFileSync(path.join(matDir, '.DS_Store'), 'junk'); // скрытые файлы не должны попадать в список
+const fid = (name) => crypto.createHash('sha1').update(name).digest('hex').slice(0, 12);
+const BAY = fid('bayandama.pdf'), BAG = fid('baghdarlama.pdf');
 
 const config = loadConfig({
   BOT_TOKEN: '123:TEST',
@@ -25,7 +33,7 @@ const config = loadConfig({
   DATA_DIR: dataDir,
   SITE_URL: '',
   ORDER_RATE_LIMIT: '1000', // лимит проверяется отдельно в конце
-  MATERIALS_FILE: path.join(__dirname, 'materials.demo.json'), // 5 демо-PDF
+  MATERIALS_DIR: matDir,
 });
 const db = openDb(config.dataDir);
 
@@ -101,10 +109,12 @@ async function step(name, fn) {
     await step('главная и список материалов отдаются', async () => {
       const r = await user.req('/');
       assert.equal(r.status, 200);
-      assert.match(await r.text(), /Кәмелетке толмағандардың психологиялық қауіпсіздігі/);
+      assert.match(await r.text(), /Ару Базарбаевнаның материалдары/);
       const m = await (await user.req('/api/materials')).json();
-      assert.equal(m.length, 5);
-      assert.ok(m.every((x) => x.id && x.title && x.size && !('filename' in x) && !('path' in x)));
+      assert.equal(m.count, 5);
+      assert.equal(m.title, 'Семинар материалдары');
+      assert.match(m.size, /КБ/);
+      assert.deepEqual(m.files, []); // без оплаты содержимое папки не раскрывается
       const c = await (await user.req('/api/config')).json();
       assert.equal(c.price, 666);
       assert.equal(c.kaspiPhoneDisplay, '+7 (700) 123-45-67');
@@ -112,22 +122,23 @@ async function step(name, fn) {
     });
 
     await step('без токена файлы недоступны (download/view → 401, прямые пути → 404)', async () => {
-      assert.equal((await anon.req('/api/download/bayandama')).status, 401);
-      assert.equal((await anon.req('/api/view/bayandama')).status, 401);
-      const html = await anon.req('/api/download/bayandama', { headers: { accept: 'text/html' } });
+      assert.equal((await anon.req('/api/download/all')).status, 401);
+      assert.equal((await anon.req(`/api/download/${BAY}`)).status, 401);
+      assert.equal((await anon.req(`/api/view/${BAY}`)).status, 401);
+      const html = await anon.req('/api/download/all', { headers: { accept: 'text/html' } });
       assert.equal(html.status, 401);
-      assert.match(await html.text(), /\/\?pay=bayandama/);
-      for (const p of ['/files/bayandama.pdf', '/private/bayandama.pdf', '/bayandama.pdf', '/materials.json', '/package.json', '/.env', '/data/seminar.db'])
+      assert.match(await html.text(), /\/\?pay=download/);
+      for (const p of ['/files/bayandama.pdf', '/private/bayandama.pdf', '/bayandama.pdf', '/materials.json', '/package.json', '/.env', '/data/seminar.db', '/private/materials/bayandama.pdf', '/materials/bayandama.pdf'])
         assert.equal((await anon.req(p)).status, 404, p);
       // поддельный токен
       const fake = client();
       fake.jar[COOKIE] = 'a'.repeat(64);
-      assert.equal((await fake.req('/api/download/bayandama')).status, 401);
+      assert.equal((await fake.req('/api/download/all')).status, 401);
       assert.equal((await (await fake.req('/api/me')).json()).access, false);
     });
 
     await step('path traversal не проходит', async () => {
-      for (const p of ['/api/download/..%2F..%2Fpackage.json', '/api/download/..%2Fprivate%2Fbayandama.pdf', '/api/download/bayandama.pdf', '/api/view/%2E%2E%2F.env'])
+      for (const p of ['/api/download/..%2F..%2Fpackage.json', '/api/download/..%2Fprivate%2Fbayandama.pdf', '/api/download/bayandama.pdf', '/api/view/%2E%2E%2F.env', '/api/download/' + fid('.DS_Store')])
         assert.ok([401, 404].includes((await anon.req(p)).status), p);
     });
 
@@ -213,19 +224,31 @@ async function step(name, fn) {
       assert.equal(me.access, true);
     });
 
-    await step('скачивание (attachment) и просмотр (inline) с токеном', async () => {
-      const r = await user.req('/api/download/bayandama');
+    await step('после оплаты: список файлов, ZIP всей папки, отдельный файл и просмотр', async () => {
+      const m = await (await user.req('/api/materials')).json();
+      assert.deepEqual(m.files.map((f) => f.name), ['baghdarlama.pdf', 'bayandama.pdf', 'kiberbulling.pdf', 'trening.pdf', 'zhadnama.pdf']);
+      const z = await user.req('/api/download/all');
+      assert.equal(z.status, 200);
+      assert.match(z.headers.get('content-type'), /application\/zip/);
+      assert.match(z.headers.get('content-disposition'), /^attachment;.*filename\*=UTF-8''%D0%A1%D0%B5%D0%BC/); // «Семинар материалдары.zip»
+      const zip = Buffer.from(await z.arrayBuffer());
+      assert.equal(zip.subarray(0, 4).toString('hex'), '504b0304');
+      for (const f of m.files) assert.ok(zip.includes(Buffer.from('Семинар материалдары/' + f.name)), f.name);
+      assert.ok(!zip.includes(Buffer.from('.DS_Store')));
+      const z2 = await user.req('/api/download/all'); // второй раз — из кеша, тот же архив
+      assert.deepEqual(Buffer.from(await z2.arrayBuffer()), zip);
+
+      const r = await user.req(`/api/download/${BAY}`);
       assert.equal(r.status, 200);
       assert.match(r.headers.get('content-disposition'), /^attachment; filename="bayandama\.pdf"/);
-      assert.match(r.headers.get('content-type'), /application\/pdf/);
-      const buf = Buffer.from(await r.arrayBuffer());
-      assert.deepEqual(buf, fs.readFileSync(path.join(config.privateDir, 'bayandama.pdf')));
-      const v = await user.req('/api/view/baghdarlama');
+      assert.deepEqual(Buffer.from(await r.arrayBuffer()), fs.readFileSync(path.join(matDir, 'bayandama.pdf')));
+      const v = await user.req(`/api/view/${BAG}`);
       assert.equal(v.status, 200);
       assert.match(v.headers.get('content-disposition'), /^inline;/);
-      assert.equal(Number(v.headers.get('content-length')), fs.statSync(path.join(config.privateDir, 'baghdarlama.pdf')).size);
+      assert.match(v.headers.get('content-type'), /application\/pdf/);
       assert.equal((await user.req('/api/download/../package.json')).status, 404);
       assert.equal((await user.req('/api/download/nope')).status, 404);
+      assert.equal((await user.req('/api/download/0123456789ab')).status, 404);
     });
 
     await step('личная ссылка /access/<токен> открывает доступ на другом устройстве', async () => {
@@ -233,7 +256,7 @@ async function step(name, fn) {
       const r = await other.req(new URL(link).pathname);
       assert.equal(r.status, 302);
       assert.equal(r.headers.get('location'), '/?access=ok');
-      assert.equal((await other.req('/api/download/zhadnama')).status, 200);
+      assert.equal((await other.req('/api/download/all')).status, 200);
       const bad = await client().req('/access/' + 'b'.repeat(64));
       assert.equal(bad.headers.get('location'), '/?access=bad');
     });
@@ -246,7 +269,7 @@ async function step(name, fn) {
       const d = await (await c2.req(`/api/orders/${o.orderId}/status`)).json();
       assert.equal(d.status, 'rejected');
       assert.equal(c2.jar[COOKIE], undefined);
-      assert.equal((await c2.req('/api/download/bayandama')).status, 401);
+      assert.equal((await c2.req('/api/download/all')).status, 401);
     });
 
     await step('восстановление «Бұрын төледім» → кнопка «Қолжетімділікті қайтару» → доступ с тем же токеном', async () => {
@@ -263,7 +286,7 @@ async function step(name, fn) {
       const d = await (await fresh.req(`/api/restore/${rs.restoreId}/status`)).json();
       assert.equal(d.status, 'paid');
       assert.equal(fresh.jar[COOKIE], user.jar[COOKIE]);
-      assert.equal((await fresh.req('/api/download/trening')).status, 200);
+      assert.equal((await fresh.req(`/api/download/${fid('trening.pdf')}`)).status, 200);
     });
 
     await step('восстановление по номеру без оплаты: админ видит предупреждение, может отклонить', async () => {
@@ -305,21 +328,25 @@ async function step(name, fn) {
       assert.deepEqual(codes, [201, 201, 201, 201, 201, 429]);
     });
 
-    await step('боевой materials.json: архив со всеми материалами скачивается после оплаты', async () => {
-      const real = loadConfig({ DATA_DIR: dataDir, BOT_TOKEN: '' });
-      const app3 = createApp({ config: real, db, telegram, log: { error: console.error } });
+    await step('боевая папка private/materials: ZIP и файлы скачиваются после оплаты', async () => {
+      const real = loadConfig({ DATA_DIR: dataDir, BOT_TOKEN: '', MATERIALS_DIR: '' });
+      const app3 = createApp({ config: real, db, telegram, log: { error: console.error, info() {} } });
       const s3 = app3.listen(0);
       await new Promise((r) => s3.once('listening', r));
       const b = `http://127.0.0.1:${s3.address().port}`;
+      const auth = { headers: { cookie: `${COOKIE}=${user.jar[COOKIE]}` } };
       try {
-        const list = await (await fetch(b + '/api/materials')).json();
-        for (const m of list) {
-          assert.equal((await fetch(`${b}/api/download/${m.id}`)).status, 401, m.id);
-          const r = await fetch(`${b}/api/download/${m.id}`, { headers: { cookie: `${COOKIE}=${user.jar[COOKIE]}` } });
-          assert.equal(r.status, 200, m.id);
-          const src = real.materials.find((x) => x.id === m.id);
-          assert.equal(Buffer.from(await r.arrayBuffer()).length, fs.statSync(src.path).size);
-          console.log(`      ${m.id}: ${r.headers.get('content-type')} · ${r.headers.get('content-disposition')}`);
+        const m = await (await fetch(b + '/api/materials', auth)).json();
+        console.log(`      «${m.title}»: ${m.count} файл · ${m.size}`);
+        assert.equal((await fetch(`${b}/api/download/all`)).status, 401);
+        const z = await fetch(`${b}/api/download/all`, auth);
+        assert.equal(z.status, 200);
+        const zip = Buffer.from(await z.arrayBuffer());
+        for (const f of m.files) {
+          assert.ok(zip.includes(Buffer.from(f.name)), f.name);
+          const r = await fetch(`${b}/api/download/${f.id}`, auth);
+          assert.equal(r.status, 200, f.name);
+          console.log(`      ${f.name} — ${f.size} · ${r.headers.get('content-type')}`);
         }
       } finally {
         s3.close();

@@ -11,41 +11,11 @@ function int(v, def) {
   return Number.isFinite(n) ? n : def;
 }
 
-/** Загрузка materials.json: белый список файлов. Пути от пользователя никогда не используются. */
-function loadMaterials(file, privateDir) {
-  const raw = JSON.parse(fs.readFileSync(file, 'utf8'));
-  if (!Array.isArray(raw)) throw new Error('materials.json: ожидается массив');
-  const seen = new Set();
-  return raw.map((m, i) => {
-    const where = `materials.json[${i}]`;
-    if (!m || typeof m.id !== 'string' || !/^[a-z0-9_-]{1,64}$/i.test(m.id)) {
-      throw new Error(`${where}: id должен состоять из латиницы, цифр, "-" или "_"`);
-    }
-    if (seen.has(m.id)) throw new Error(`${where}: id "${m.id}" повторяется`);
-    seen.add(m.id);
-    if (typeof m.filename !== 'string' || path.basename(m.filename) !== m.filename || m.filename.startsWith('.')) {
-      throw new Error(`${where}: filename должен быть просто именем файла внутри private/`);
-    }
-    const abs = path.join(privateDir, m.filename);
-    if (!fs.existsSync(abs)) console.warn(`[config] ВНИМАНИЕ: файл не найден: private/${m.filename}`);
-    return {
-      id: m.id,
-      title: String(m.title || m.filename),
-      description: String(m.description || ''),
-      filename: m.filename,
-      tag: String(m.tag || ''),
-      size: m.size ? String(m.size) : null, // если не указан — считается автоматически
-      downloadName: m.downloadName ? String(m.downloadName) : m.filename, // имя файла при скачивании
-      path: abs,
-    };
-  });
-}
-
 function loadConfig(overrides = {}) {
   const env = { ...process.env, ...overrides };
   const kaspiRaw = (env.KASPI_PHONE || '').trim();
   const kaspiNorm = normalizePhone(kaspiRaw);
-  const privateDir = path.resolve(env.PRIVATE_DIR || path.join(ROOT, 'private'));
+  const materialsDir = path.resolve(env.MATERIALS_DIR || path.join(ROOT, 'private', 'materials'));
   const publicDir = path.join(ROOT, 'public');
 
   const cfg = {
@@ -62,12 +32,13 @@ function loadConfig(overrides = {}) {
     timeZone: (env.TIME_ZONE || 'Asia/Almaty').trim(),
     orderRateLimit: int(env.ORDER_RATE_LIMIT, 5),
     trustProxy: int(env.TRUST_PROXY, 1),
-    privateDir,
+    materialsDir,
+    folderTitle: (env.FOLDER_TITLE || 'Семинар материалдары').trim(),
     publicDir,
     kaspiQrPath: path.join(publicDir, 'kaspi-qr.png'),
-    materials: loadMaterials(path.resolve(env.MATERIALS_FILE || path.join(ROOT, 'materials.json')), privateDir),
   };
 
+  if (!fs.existsSync(materialsDir)) console.warn(`[config] ВНИМАНИЕ: папка с материалами не найдена: ${materialsDir}`);
   if (!cfg.kaspiPhone) console.warn('[config] ВНИМАНИЕ: KASPI_PHONE не задан');
   if (!cfg.botToken) console.warn('[config] ВНИМАНИЕ: BOT_TOKEN не задан — уведомления в Telegram отключены');
   else if (!cfg.adminChatId) console.warn('[config] ВНИМАНИЕ: ADMIN_CHAT_ID не задан — напишите боту /start, чтобы узнать его');
